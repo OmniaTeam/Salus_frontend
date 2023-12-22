@@ -6,11 +6,11 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
+import { setCategory } from "../store/reducers/ISettingsSlice"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
 import DropdownMenu from "../components/dropdownMenu"
-import { setCategory } from "../store/reducers/ISettingsSlice"
 
 export default function LecturesPage() {
     const navigator = useNavigate()
@@ -23,14 +23,17 @@ export default function LecturesPage() {
     const [isSettingsModalOpen, setIsSettignsModalOpen] = useState<boolean>(false)
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState<boolean>(false)
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
-    const [selectedOption, setSelectedOption] = useState<string>(getCategoryName(SETTINGS.categories));
+    const [selectedCategory, setSelectedCategory] = useState<string>(getCategoryName(SETTINGS.categories));
+    const [selectedLector, setSelectedLector] = useState<string>('Выберите сотрудника')
+    const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
+    const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(
 			(option) => option.value === category
 		);
         if (selectedCategory) {
-			setSelectedOption(category);
+			setSelectedCategory(category);
             switch (category) {
                 case "Все категории": {
                     dispatch(setCategory(EEventCategories.all))
@@ -61,6 +64,33 @@ export default function LecturesPage() {
                     return
                 }
             }
+		}
+	};
+
+    const handleLectorsSelect = (lector: string) => {
+		const selectedLector = lectors.find(
+			(option) => option.value === lector
+		);
+        if (selectedLector) {
+			setSelectedLector(lector);
+		}
+	};
+
+    const handleTimesSelect = (time: string) => {
+		const selectedTimes = times.find(
+			(option) => option.value === time
+		);
+        if (selectedTimes) {
+			setSelectedTime(time);
+		}
+	};
+
+    const handlePlatformsSelect = (platform: string) => {
+		const selectedPlatforms = platforms.find(
+			(option) => option.value === platform
+		);
+        if (selectedPlatforms) {
+			setSelectedPlatform(platform);
 		}
 	};
 
@@ -96,6 +126,90 @@ export default function LecturesPage() {
 		    id: 5
         },
 
+    ]
+
+    const lectors = [
+        {
+            value: "Иванов Иван Иванович",
+            label: "Иванов Иван Иванович",
+            id: 0
+        },
+        {
+            value: "Бублик Василий Суренович",
+            label: "Бублик Василий Суренович",
+            id: 1
+        },
+        {
+            value: "Васипусин Монарх Евгеньевич",
+            label: "Васипусин Монарх Евгеньевич",
+            id: 2
+        }
+    ]
+
+    const times = [
+        {
+            value: "10:00",
+            label: "10:00",
+            id: 0
+        },
+        {
+            value: "11:00",
+            label: "11:00",
+            id: 1
+        },
+        {
+            value: "12:00",
+            label: "12:00",
+            id: 2
+        },
+        {
+            value: "13:00",
+            label: "13:00",
+            id: 3
+        },
+        {
+            value: "14:00",
+            label: "14:00",
+            id: 4
+        },
+        {
+            value: "15:00",
+            label: "15:00",
+            id: 5
+        },
+        {
+            value: "16:00",
+            label: "16:00",
+            id: 6
+        },
+        {
+            value: "17:00",
+            label: "17:00",
+            id: 7
+        }
+    ]
+
+    const platforms = [
+        {
+            value : "Google meets",
+            label : "Google meets",
+            id: 0
+        },
+        {
+            value : "Zoom",
+            label : "Zoom",
+            id: 1
+        },
+        {
+            value : "Discord",
+            label : "Discord",
+            id: 2
+        },
+        {
+            value : "Skype",
+            label : "Skype",
+            id: 3
+        }
     ]
 
     return (<>
@@ -206,7 +320,7 @@ export default function LecturesPage() {
                 <div className="modal--container">
                     <h3 className="modal--container__title">Детальные настройки</h3>
                     <DropdownMenu
-                    defaultSelected={selectedOption}
+                    defaultSelected={selectedCategory}
                     options={categories}
                     onSelectOption={handleCategoriesSelect}
 					/>
@@ -217,10 +331,37 @@ export default function LecturesPage() {
             <Modal onClose={() => setIsAddNewModalOpen(false)}>
                 <div className="modal--container">
                     <h3 className="modal--container__title">Добавить новую лекцию</h3>
-                    <form className="modal--form">
-                        <input type="text" placeholder="Тема лекции"/>
-                        <input type="text" placeholder=""/>
-                    </form>
+                    <div className="modal--form">
+                        <input 
+                        type="text" 
+                        placeholder="Тема лекции"
+                        className="modal--form__input"
+                        />
+                        <DropdownMenu
+                        defaultSelected={selectedCategory}
+                        options={categories}
+                        onSelectOption={handleCategoriesSelect}
+                        />
+                        <DropdownMenu
+                        defaultSelected={selectedLector}
+                        options={lectors}
+                        onSelectOption={handleLectorsSelect}
+                        />
+                        <DropdownMenu
+                        defaultSelected={selectedTime}
+                        options={times}
+                        onSelectOption={handleTimesSelect}
+                        />
+                        <DropdownMenu
+                        defaultSelected={selectedPlatform}
+                        options={platforms}
+                        onSelectOption={handlePlatformsSelect}
+                        />
+                    </div>
+                    <button 
+                    type="button"
+                    className="modal--button"
+                    >Добавить</button>
                 </div>
             </Modal>
         )}

@@ -54,4 +54,30 @@
         color: $primary_black;
         background-color: $secondary_psychology;
     }
+    &--form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        &__input {
+            padding: 10px 0 10px 8px;
+            width: calc(100% - 12px);
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 16px;
+            letter-spacing: 1px;
+            border: 1px solid $primary_black;
+            border-radius: 10px;
+        }
+    }
+    &--button {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 3.6px;
+        padding: 10px 0;
+        border: none;
+        border-radius: 10px;
+        background-color: $primary_pink;
+        cursor: pointer;
+    }
 }
