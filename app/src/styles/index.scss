@@ -1,0 +1,283 @@
+@import "../global.scss";
+
+.auth {
+    &--container {
+        display: flex;
+        flex-direction: column;
+        gap: 200px;
+        justify-content: flex-end;
+        max-width: 414px;
+        margin: 0 auto;
+        height: 100vh;
+        overflow: hidden;
+        &__title {
+            font-size: 80px;
+            font-weight: 600;
+            line-height: 80px;
+            text-align: center;
+            letter-spacing: 20px;
+            margin-right: -20px;
+        }
+    }
+}
+
+.form {
+    background-color: $primary_white;
+    border-radius: 20px 20px 0 0;
+    padding-top: 20px;
+    &--container {
+        max-width: 321px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+    &--title {
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 6px;
+        text-align: center;
+    }
+    &--inputs {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        &__input {
+            padding: 10px 0 10px 8px;
+            width: calc(100% - 12px);
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 1px;
+            border: 1px solid $primary_black;
+            border-radius: 10px;
+        }
+    }
+    &--submit {
+        width: 100%;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 3.6px;
+        padding: 16px 0;
+        border: none;
+        border-radius: 10px;
+        background-color: $primary_pink;
+        cursor: pointer;
+    }
+    &--comp {
+        text-align: center;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 8px;
+        margin: 100px 0 30px 0;
+    }
+}
+
+.index {
+    &--title {
+        @include applicationTitle
+    }
+    &--cards {
+        padding-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+    }
+    &--card {
+        width: 177px;
+        height: 200px;
+        border-radius: 20px;
+        position: relative;
+        cursor: pointer;
+        // &:hover {
+        //     box-shadow: 0 0 10px 0 $primary_white;;
+        // }
+        p {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 1px;
+            color: $primary_black;
+            user-select: none;
+        }
+        &__lectures {
+            background: linear-gradient(152deg, #E8D1FF 29.43%, #CDF3E6 81.06%);
+        }
+        &__lectors {
+            background: linear-gradient(151deg, #FFE7D1 11.47%, #FFD1E8 71.9%);
+        }
+        &__meditations {
+            background: linear-gradient(145deg, #C8E3CC 25.65%, #FF75B7 103.03%);
+        }
+        &__statistics {
+            background: linear-gradient(152deg, #BB95E2 29.43%, #FBD5F7 81.06%);
+        }
+    }
+}
+
+.meditations,
+.settings,
+.statistics {
+    &--title {
+        @include applicationTitle
+    }
+    &--content {
+        padding-top: 20px;
+        p {
+            font-size: 24px;
+            letter-spacing: 5px;
+            line-height: 24px;
+        }
+    }
+}
+
+.lectures,
+.lectors {
+    &--heading {
+        position: fixed;
+        z-index: 9999;
+        &__title {
+            @include applicationTitle
+        }
+    }
+    &--content {
+        padding-top: 112px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px
+    }
+    @media screen and (min-width: 768px) {
+        &--content {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+    }
+}
+
+.categories {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0;
+    &--relaited,
+    &--calendar {
+        background-color: $primary_white;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 20px;
+        letter-spacing: 1px;
+    }
+    &--settings {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary_white;
+        border-radius: 10px;
+    }
+}
+
+.lector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    &--title {
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 3.2px;
+        text-align: center;
+    }
+    &--record {
+        width: 100%;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: 1px;
+        padding: 15px 0;
+        border-radius: 15px;
+        border: none
+    }
+}
+
+.metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;;
+    &--spec,
+    &--rating,
+    &--happiness,
+    &--physical,
+    &--mental {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $primary_white;
+        padding: 10px;
+        border-radius: 20px;
+        &__name {
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 1px;
+        }
+        &__value {
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 16px;
+            letter-spacing: 1px;
+            padding: 10px;
+            background-color: $secondary_psychology;
+            border-radius: 10px;
+        }
+    }
+}
+
+.profile {
+    &--heading {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding-bottom: 20px;
+        &__avatar {
+            width: 150px;
+            height: 150px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        &__fio {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 32px;
+            letter-spacing: 3.2px;
+        }
+    }
+    &--content {
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        @media screen and (min-width: 768px) {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+    }
+}

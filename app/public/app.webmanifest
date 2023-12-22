@@ -1,0 +1,38 @@
+{
+  "name": "Salus",
+  "short_name": "Salus",
+  "description": "Заботься о своем благополучии с нашим приложением!",
+  "lang": "ru-RU",
+  "start_url": "https://salus.the-omnia.ru",
+  "scope": "https://salus.the-omnia.ru/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "icons": [
+    {
+      "src": "maskable_icon_x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "rounded_icon_x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "web_apps": [
+    {
+      "manifest": "/app/manifest.json",
+      "details": {
+        "paths": ["/*"]
+      }
+    }
+  ],
+  "serviceworker": {
+    "src": "service-worker.js",
+    "scope": "/"
+  }
+}
