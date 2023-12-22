@@ -90,25 +90,11 @@ export default function AuthPage() {
                     className="form">
                         <div className="form--container">
                             <p className="form--title">Sign In</p>
-                            <div className="form--inputs">
-                                <input 
-                                type="text" 
-                                className="form--inputs__input .form--inputs__login"
-                                placeholder="login"
-                                onChange={(event) => {setUserLogin(event.target.value)}}
-                                />
-                                <input 
-                                type="text" 
-                                className="form--inputs__input .form--inputs__pass"
-                                placeholder="password"
-                                onChange={(event) => {setUserPassword(event.target.value)}}
-                                />
-                            </div>
                             <button 
                             type="button" 
                             className="form--submit"
-                            onClick={authHandler}
-                            >submit</button>
+                            onClick={() => navigator('/api/v3/oauth2/authorization/google')}
+                            >войти через Google</button>
                         </div>
                         <p className="form--comp">BY OMNIA</p>
                     </motion.form>
