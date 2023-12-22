@@ -31,8 +31,15 @@ const root = ReactDOM.createRoot(
 
 const App = () => {
     useEffect(() => {
-        if (window.location.href === "http://localhost:5173/") {
-            window.location.href = 'http://localhost:5173/application'
+        switch (window.location.href) {
+            case "http://localhost:5173/": {
+                window.location.href = 'http://localhost:5173/application'
+                return
+            }
+            case "https://salus.the-omnia.ru/": {
+                window.location.href = "https://salus.the-omnia.ru/auth"
+                return
+            }
         }
     }, [])
 
