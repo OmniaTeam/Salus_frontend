@@ -80,4 +80,20 @@
         background-color: $primary_pink;
         cursor: pointer;
     }
+    &--exit-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &__no,
+        &__yes {
+            width: 100px;
+            text-align: center;
+            padding: 10px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            line-height: 18px;
+            cursor: pointer;
+        }
+    }
 }

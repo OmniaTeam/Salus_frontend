@@ -22,6 +22,8 @@ export default function LecturesPage() {
     const [isEventModalOpen, setIsEventModalOpen] = useState<boolean>(false);
     const [isSettingsModalOpen, setIsSettignsModalOpen] = useState<boolean>(false)
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState<boolean>(false)
+    const [isEditEventModalOpen, setIsEditEventModalOpen] = useState<boolean>(false)
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
     const [selectedCategory, setSelectedCategory] = useState<string>(getCategoryName(SETTINGS.categories));
     const [selectedLector, setSelectedLector] = useState<string>('Выберите сотрудника')
@@ -278,6 +280,8 @@ export default function LecturesPage() {
                 buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
                 category={EEventCategories.psychology}
                 click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                edit={() => setIsEditEventModalOpen(true)}
+                delete={() => setIsDeleteModalOpen(true)}
                 />
                 <EventCard 
                 type={EEventTypes.lecture} 
@@ -288,6 +292,8 @@ export default function LecturesPage() {
                 buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
                 category={EEventCategories.finance}
                 click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                edit={() => setIsEditEventModalOpen(true)}
+                delete={() => setIsDeleteModalOpen(true)}
                 />
                 <EventCard 
                 type={EEventTypes.lecture} 
@@ -298,6 +304,8 @@ export default function LecturesPage() {
                 buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
                 category={EEventCategories.health}
                 click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                edit={() => setIsEditEventModalOpen(true)}
+                delete={() => setIsDeleteModalOpen(true)}
                 />
             </div>
         </div>
@@ -362,6 +370,71 @@ export default function LecturesPage() {
                     type="button"
                     className="modal--button"
                     >Добавить</button>
+                </div>
+            </Modal>
+        )}
+        {isEditEventModalOpen && (
+            <Modal onClose={() => setIsEditEventModalOpen(false)}>
+                <div className="modal--container">
+                    <h3 className="modal--container__title">Редактирвоать данные</h3>
+                    <div className="modal--form">
+                        <input 
+                        type="text" 
+                        placeholder="Тема лекции"
+                        className="modal--form__input"
+                        />
+                        <DropdownMenu
+                        defaultSelected={selectedCategory}
+                        options={categories}
+                        onSelectOption={handleCategoriesSelect}
+                        />
+                        <DropdownMenu
+                        defaultSelected={selectedLector}
+                        options={lectors}
+                        onSelectOption={handleLectorsSelect}
+                        />
+                        <DropdownMenu
+                        defaultSelected={selectedTime}
+                        options={times}
+                        onSelectOption={handleTimesSelect}
+                        />
+                        <DropdownMenu
+                        defaultSelected={selectedPlatform}
+                        options={platforms}
+                        onSelectOption={handlePlatformsSelect}
+                        />
+                    </div>
+                    <button 
+                    type="button"
+                    className="modal--button"
+                    >Сохранить изменения</button>
+                </div>
+            </Modal>
+        )}
+        {isDeleteModalOpen && (
+            <Modal onClose={() => setIsDeleteModalOpen(false)}>
+                <div className="modal--container">
+                    <h3 className="modal--container__title">Вы уверены, что хотите удалить это мероприятие?</h3>
+                    <div className="modal--exit-buttons">
+                        <button
+                        type="button"
+                        className="modal--exit-buttons__no"
+                        style={{
+                            backgroundColor: "#7CF981"
+                        }}
+                        >
+                            Нет
+                        </button>
+                        <button
+                        type="button"
+                        className="modal--exit-buttons__yes"
+                        style={{
+                            backgroundColor: "#FF6A6A"
+                        }}
+                        >
+                            Да
+                        </button>
+                    </div>
                 </div>
             </Modal>
         )}

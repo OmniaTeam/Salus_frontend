@@ -19,7 +19,7 @@
         flex-direction: column;
         align-items: flex-end;
         justify-content: space-between;
-        padding: 15px 15px 15px 0;
+        padding: 10px 10px 10px 0;
     }
     &--heading {
         display: flex;
@@ -40,6 +40,25 @@
             line-height: 12px;
             letter-spacing: 0.6px;
             opacity: 0.5;
+        }
+    }
+    &--buttons {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: flex-end;
+        &__edit,
+        &__delete {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
     }
     &--button {
