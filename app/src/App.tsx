@@ -37,7 +37,7 @@ const App = () => {
                 return
             }
             case "https://salus.the-omnia.ru/": {
-                window.location.href = "https://salus.the-omnia.ru/auth"
+                window.location.href = "https://salus.the-omnia.ru/application"
                 return
             }
         }
