@@ -95,7 +95,7 @@ export default function AuthPage() {
                             <button 
                             type="button" 
                             className="form--submit"
-                            onClick={() => navigator('/api/v3/oauth2/authorization/google')}
+                            onClick={() => window.location.href = 'https://salus.the-omnia.ru/api/v3/oauth2/authorization/google'}
                             >войти через google</button>
                         </div>
                         <p className="form--comp">BY OMNIA</p>
