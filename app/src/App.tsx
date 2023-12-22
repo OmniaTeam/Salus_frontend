@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 
 import './global.scss'
@@ -6,6 +6,7 @@ import './styles/index.scss'
 import './styles/navbar.scss'
 import './styles/eventCard.scss'
 import './styles/modal.scss'
+import './styles/dropdownMenu.scss'
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -29,12 +30,18 @@ const root = ReactDOM.createRoot(
 )
 
 const App = () => {
+    useEffect(() => {
+        if (window.location.href === "http://localhost:5173/") {
+            window.location.href = 'http://localhost:5173/application'
+        }
+    }, [])
+
     return <>
         <React.StrictMode>
             <Provider store={store}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<AuthPage/>}/>
+                        <Route path="/auth" element={<AuthPage/>}/>
                         <Route path="/application" element={<AppLayout/>}>
                             <Route path="" index={true} element={<IndexPage/>}/>
                             <Route path="profile" element={<ProfilePage/>}/>

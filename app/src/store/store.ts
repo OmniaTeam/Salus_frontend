@@ -3,10 +3,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { AuthService } from "../services/authService";
 import { DataService } from "../services/dataService";
 import { IUserSlice } from "./reducers/IUserSlice";
+import { ISettingsSlice } from "./reducers/ISettingsSlice";
 
 const rootReducer = combineReducers({
 	[AuthService.reducerPath] : AuthService.reducer,
 	user : IUserSlice.reducer,
+	settings : ISettingsSlice.reducer
 	// [DataService.reducerPath] : DataService.reducer
 })
 

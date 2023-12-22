@@ -20,7 +20,7 @@ export default function Navbar() {
         switch (userRole) {
             case EUserRole.none: {
                 return (<>
-                    <Link to="/application/profile" className="avatar-wrapper--profile">
+                    <Link to="/auth" className="avatar-wrapper--profile">
                         <img src={loginIcon} alt="" />
                     </Link>
                 </>)

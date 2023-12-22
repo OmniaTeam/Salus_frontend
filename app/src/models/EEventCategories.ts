@@ -3,5 +3,6 @@ export enum EEventCategories {
     finance = "FINANCE",
     health = "HEALTH",
     feed = "FEED",
-    meditation = "MEDITATION"
+    meditation = "MEDITATION",
+    all = "ALL"
 }
