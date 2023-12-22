@@ -9,8 +9,9 @@ import { EUserRole } from "../models/EUserRole"
 export default function AuthPage() {
     const navigator = useNavigate()
     const dispatch = useAppDispatch()
-
+    //@ts-ignore
     const [userLogin, setUserLogin] = useState<string>("")
+    //@ts-ignore
     const [userPassword, setUserPassword] = useState<string>("")
 
     const [signIn,
@@ -23,6 +24,7 @@ export default function AuthPage() {
         }] = useSignInMutation()
     const getUser = useGetUserQuery('')
 
+    //@ts-ignore
     const authHandler = () => {
         signIn({
             login: userLogin,
@@ -94,7 +96,7 @@ export default function AuthPage() {
                             type="button" 
                             className="form--submit"
                             onClick={() => navigator('/api/v3/oauth2/authorization/google')}
-                            >войти через Google</button>
+                            >войти через google</button>
                         </div>
                         <p className="form--comp">BY OMNIA</p>
                     </motion.form>
