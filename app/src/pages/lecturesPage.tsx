@@ -33,7 +33,7 @@ export default function LecturesPage() {
     const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
-    const useGetAllLecturesQuery = useGetLecturesByDateQuery(new Date().toISOString())
+    const useGetAllLecturesQuery = useGetLecturesByDateQuery(selectedDate)
 
     useEffect(() => {
         if (useGetAllLecturesQuery.isSuccess) {
@@ -51,7 +51,7 @@ export default function LecturesPage() {
                 })
             })
         }
-    }, [useGetAllLecturesQuery])
+    }, [selectedDate])
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(
