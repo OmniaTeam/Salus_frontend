@@ -9,11 +9,11 @@ import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
 import { useGetLecturesByDateQuery } from "../services/dataService"
 import { setLecturesData } from "../store/reducers/ILecturesSlice"
+import { clearLectorsData } from "../store/reducers/ILectorsSlice"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
 import DropdownMenu from "../components/dropdownMenu"
-import { clearLectorsData } from "../store/reducers/ILectorsSlice"
 
 export default function LecturesPage() {
     const navigator = useNavigate()
@@ -248,6 +248,31 @@ export default function LecturesPage() {
         }
     ]
 
+    const renderLectures = () => {
+        if (lecturesQuery.isSuccess) {
+            return LECTURES.value.map((elem, index) => (
+                <motion.div 
+                initial={{opacity: 0, y: 10}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 1}}
+                key={index}>
+                    <EventCard 
+                    type={EEventTypes.lecture} 
+                    title={elem.meet_name}
+                    firstLine={elem.subject} 
+                    secondLine={elem.speaker_name}
+                    thirdLine={elem.date + "-" + elem.time}
+                    buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
+                    category={elem.subject}
+                    click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                    edit={() => setIsEditEventModalOpen(true)}
+                    delete={() => setIsDeleteModalOpen(true)}
+                    />
+                </motion.div>)
+            )
+        }
+    }
+
     return (<>
         <div className="lectures">
             <div className='lectures--heading'>
@@ -314,33 +339,7 @@ export default function LecturesPage() {
                     }
                 </div>
             </div>
-            <div className="lectures--content">
-                {lecturesQuery.isSuccess
-                    ? (<>
-                        {LECTURES.value.map((elem, index) => (
-                            <motion.div 
-                            initial={{opacity: 0, y: 10}}
-                            animate={{opacity: 1, y: 0}}
-                            transition={{duration: 1}}
-                            key={index}>
-                                <EventCard 
-                                type={EEventTypes.lecture} 
-                                title={elem.meet_name}
-                                firstLine={elem.subject} 
-                                secondLine={elem.speaker_name}
-                                thirdLine={elem.date + "-" + elem.time}
-                                buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                                category={elem.subject}
-                                click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
-                                edit={() => setIsEditEventModalOpen(true)}
-                                delete={() => setIsDeleteModalOpen(true)}
-                                />
-                            </motion.div>))
-                        } 
-                    </>)
-                    : (<></>)
-                }
-            </div>
+            <div className="lectures--content">{renderLectures()}</div>
         </div>
         {isEventModalOpen && (
             <Modal onClose={() => setIsEventModalOpen(false)}>
