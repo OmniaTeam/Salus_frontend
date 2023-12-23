@@ -23,7 +23,10 @@ export default function Navbar() {
 			headers : {
 				"Content-Type": "application/json",
 			}
-	})
+	}).then((result) => {if (result.status === 302) {
+        console.log(result)
+        window.location.href = 'https://salus.the-omnia.ru'
+    }})
 
     const getIcon = (userRole : EUserRole) => {
         switch (userRole) {
