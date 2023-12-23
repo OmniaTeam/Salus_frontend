@@ -8,6 +8,7 @@ export const DataService = createApi({
 	baseQuery : fetchBaseQuery({
 		baseUrl : "https://salus.the-omnia.ru/api/v3"
 	}),
+
 	endpoints : (build) => ({
 		getLecturesByDate : build.query<ILecture[], string>({
 			query : (data) => ({

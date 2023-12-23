@@ -1,20 +1,17 @@
 import { motion } from "framer-motion"
 import { EEventTypes } from "../models/EEventTypes"
 import { EEventCategories } from "../models/EEventCategories"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
 import { useGetLecturesByDateQuery } from "../services/dataService"
-import { setLecturesData } from "../store/reducers/ILecturesSlice"
-import { clearLectorsData } from "../store/reducers/ILectorsSlice"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
 import DropdownMenu from "../components/dropdownMenu"
-import { ILecture } from "../models/ILecture"
 
 export default function LecturesPage() {
     const navigator = useNavigate()
@@ -35,41 +32,7 @@ export default function LecturesPage() {
     const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
-    const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
-
-    useEffect(() => {
-        if (lecturesQuery.isSuccess) {
-            dispatch(clearLectorsData([]))
-            if (lecturesQuery.data.length !== 0) {
-                const uniqueLectures : ILecture[] = [];
-                lecturesQuery.data.forEach(async (value) => {
-                    const isDuplicate = uniqueLectures.some((lecture) => lecture.meet_id === value.meet_id);
-                    if (!isDuplicate) {
-                        uniqueLectures.push({
-                            meet_id: value.meet_id,
-                            meet_name: value.meet_name,
-                            subject: EEventCategories.psychology,
-                            speaker_name: value.speaker_name,
-                            date: value.date.slice(0, 10),
-                            time: value.date.slice(11, 19),
-                            platform: value.platform,
-                            link: value.link
-                        });
-                    }
-                });
-                uniqueLectures.forEach((lecture) => {
-                    dispatch(setLecturesData(lecture));
-                });
-                console.log(LECTURES);
-            }
-        }
-        if (lecturesQuery.isLoading) {
-            console.log("Loading...")
-        }
-        if (lecturesQuery.isError) {
-            console.log("Error")
-        }
-    }, [lecturesQuery])
+    const { isLoading, error } = useGetLecturesByDateQuery(selectedDate)
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(
@@ -255,31 +218,6 @@ export default function LecturesPage() {
         }
     ]
 
-    const renderLectures = () => {
-        if (lecturesQuery.isSuccess) {
-            return LECTURES.value.map((elem, index) => (
-                <motion.div 
-                initial={{opacity: 0, y: 10}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 1}}
-                key={index}>
-                    <EventCard 
-                    type={EEventTypes.lecture} 
-                    title={elem.meet_name}
-                    firstLine={elem.subject} 
-                    secondLine={elem.speaker_name}
-                    thirdLine={elem.date + "-" + elem.time}
-                    buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                    category={elem.subject}
-                    click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
-                    edit={() => setIsEditEventModalOpen(true)}
-                    delete={() => setIsDeleteModalOpen(true)}
-                    />
-                </motion.div>)
-            )
-        }
-    }
-
     return (<>
         <div className="lectures">
             <div className='lectures--heading'>
@@ -346,7 +284,35 @@ export default function LecturesPage() {
                     }
                 </div>
             </div>
-            <div className="lectures--content">{renderLectures()}</div>
+            <div className="lectures--content">{
+                error 
+                    ? <></>
+                    : <>{ isLoading
+                        ? <>Loding...</>
+                        : <>{
+                            LECTURES.value.forEach((elem, index) => (
+                                <motion.div 
+                                initial={{opacity: 0, y: 10}}
+                                animate={{opacity: 1, y: 0}}
+                                transition={{duration: 1}}
+                                key={index}>
+                                    <EventCard 
+                                    type={EEventTypes.lecture} 
+                                    title={elem.meet_name}
+                                    firstLine={elem.subject} 
+                                    secondLine={elem.speaker_name}
+                                    thirdLine={elem.date + "-" + elem.time}
+                                    buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
+                                    category={elem.subject}
+                                    click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                                    edit={() => setIsEditEventModalOpen(true)}
+                                    delete={() => setIsDeleteModalOpen(true)}
+                                    />
+                                </motion.div>)
+                            )
+                        }</>
+                    }</>
+            }</div>
         </div>
         {isEventModalOpen && (
             <Modal onClose={() => setIsEventModalOpen(false)}>
