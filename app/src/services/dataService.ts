@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IMeetup } from "../models/IMeetup";
 import { ISubject } from "../models/ISubject";
-import { ILectureReq } from "../models/ILecture";
+import { ILecture } from "../models/ILecture";
 
 export const DataService = createApi({
 	reducerPath : "data-service",
@@ -9,10 +9,10 @@ export const DataService = createApi({
 		baseUrl : "https://salus.the-omnia.ru/api/v3"
 	}),
 	endpoints : (build) => ({
-		getLecturesByDate : build.query<ILectureReq[], string>({
+		getLecturesByDate : build.query<ILecture[], string>({
 			query : (data) => ({
 				// 2023-12-23
-				url : `/meet/lecture/all?date=${data.slice(0, 10)}T00%3A00%3A00`,
+				url : `/meet/lecture/all?date=${data.slice(0, 10)}`,
 				headers : {
 					"Content-Type": "application/json",
 				},

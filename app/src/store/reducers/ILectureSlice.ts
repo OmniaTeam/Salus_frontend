@@ -3,10 +3,10 @@ import { EEventCategories } from "../../models/EEventCategories";
 import { ILecture } from "../../models/ILecture";
 
 const initialState : ILecture = {
-    id: 0,
-    topic: "nothing",
-    category: EEventCategories.all,
-    lectorName: "nothing",
+    meet_id: 0,
+    meet_name: "nothing",
+    subject: EEventCategories.all,
+    speaker_name: "nothing",
     date: "00-00-0000",
     time: "00-00",
     platform: "nothing",
@@ -18,16 +18,16 @@ export const ILectureSlice = createSlice({
     initialState,
     reducers : {
         setLectureId : (state, action : PayloadAction<number>) => {
-            state.id = action.payload
+            state.meet_id = action.payload
         },
         setLectureTopic : (state, action : PayloadAction<string>) => {
-            state.topic = action.payload
+            state.meet_name = action.payload
         },
         setLectureCategory : (state, action : PayloadAction<EEventCategories>) => {
-            state.category = action.payload
+            state.subject = action.payload
         },
         setLectorName : (state, action : PayloadAction<string>) => {
-            state.lectorName = action.payload
+            state.speaker_name = action.payload
         },
         setLectureDate : (state, action : PayloadAction<string>) => {
             state.date = action.payload

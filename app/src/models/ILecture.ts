@@ -1,10 +1,10 @@
 import { EEventCategories } from "./EEventCategories";
 
 export interface ILecture {
-    id : number,
-    topic : string,
-    category : EEventCategories,
-    lectorName : string,
+    meet_id : number,
+    meet_name : string,
+    subject : EEventCategories,
+    speaker_name : string,
     date : string,
     time : string,
     platform : string,

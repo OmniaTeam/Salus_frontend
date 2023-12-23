@@ -38,15 +38,16 @@ export default function LecturesPage() {
     useEffect(() => {
         if (lecturesQuery.isSuccess) {
             lecturesQuery.data.map((value) => {
-                dispatch(setLecturesData({
-                    id: value.id,
-                    topic: value.name,
-                    category: EEventCategories.psychology,
-                    lectorName: "Lectore Name",
-                    date: value.date,
-                    time: value.date,
-                    platform: value.connectType,
-                    link: value.connectLink,
+                dispatch(setLecturesData(
+                {
+                    meet_id: value.meet_id,
+                    meet_name: value.meet_name,
+                    subject: EEventCategories.psychology,
+                    speaker_name: value.speaker_name,
+                    date: value.date.slice(0, 10),
+                    time: value.date.slice(11, 19),
+                    platform: value.platform,
+                    link: value.link
                 }))
                 console.log(LECTURES)
             })
@@ -320,12 +321,12 @@ export default function LecturesPage() {
                             key={index}>
                                 <EventCard 
                                 type={EEventTypes.lecture} 
-                                title={elem.topic}
-                                firstLine={elem.category} 
-                                secondLine={elem.lectorName}
+                                title={elem.meet_name}
+                                firstLine={elem.subject} 
+                                secondLine={elem.speaker_name}
                                 thirdLine={elem.date + "-" + elem.time}
                                 buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                                category={elem.category}
+                                category={elem.subject}
                                 click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
                                 edit={() => setIsEditEventModalOpen(true)}
                                 delete={() => setIsDeleteModalOpen(true)}
