@@ -6,7 +6,7 @@ const initialState : IUser = {
 	id: 0,
 	fio: "nothing",
 	login : "nothing",
-	role : EUserRole.moderator
+	role : EUserRole.speaker
 }
 
 export const IUserSlice = createSlice({
