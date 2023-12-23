@@ -3,11 +3,50 @@ import { useAppSelector } from "../hooks/redux"
 import { useEffect } from "react"
 import { EUserRole } from "../models/EUserRole"
 import { useNavigate } from "react-router-dom"
+import { EEventTypes } from "../models/EEventTypes"
+import { EEventCategories } from "../models/EEventCategories"
+import { useState } from "react"
+import { getRoleName } from "../devtools/roleUtils"
+
+import EventCard from "../components/eventCard"
+import Modal from "../components/modal"
+import DropdownMenu from "../components/dropdownMenu"
 
 export default function UsersPage() {
     const navigator = useNavigate()
 
     const USER = useAppSelector((state) => state.user)
+
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
+    const [isEditEventModalOpen, setIsEditEventModalOpen] = useState<boolean>(false)
+    const [selectedRole, setSelectedRole] = useState<string>("getUserById(user_id).role")
+
+    const handleRoleSelect = (role: string) => {
+        const selectedRole = roles.find(
+            (option) => option.value === role
+        );
+        if (selectedRole) {
+            setSelectedRole(role)
+        }
+    }
+
+    const roles = [
+        {
+            value : getRoleName(EUserRole.moderator),
+            label : getRoleName(EUserRole.moderator),
+            id: 0
+        },
+        {
+            value : getRoleName(EUserRole.speaker),
+            label : getRoleName(EUserRole.speaker),
+            id: 1
+        },
+        {
+            value : getRoleName(EUserRole.worker),
+            label : getRoleName(EUserRole.worker),
+            id: 2
+        }
+    ]
 
     useEffect(() => {
         if (USER.role !== EUserRole.moderator) {
@@ -23,7 +62,7 @@ export default function UsersPage() {
                 animate={{opacity: 1}}
                 transition={{duration: 1}}
                 className="users--heading__title"
-                >Сотрудники</motion.h2>
+                >Пользователи</motion.h2>
                 <div className="categories">
                     <motion.div
                     initial={{opacity: 0, y: 10}}
@@ -37,6 +76,64 @@ export default function UsersPage() {
                     </motion.div>
                 </div>
             </div>
+            <div className="users--content">
+                <EventCard
+                    type={EEventTypes.meetup}
+                    title="Фамилия Имя Отчество"
+                    firstLine="Роль: Сотрудника"
+                    secondLine="Почта: ivanov.ivan@gmail.com"
+                    category={EEventCategories.feed}
+                    buttonText="посмотреть"
+                    click={() => navigator('/application/user/1')}
+                    delete={() => setIsDeleteModalOpen(true)}
+                    edit={()=> setIsEditEventModalOpen(true)}
+                />
+            </div>
         </div>
+        {isEditEventModalOpen && (
+            <Modal onClose={() => setIsEditEventModalOpen(false)}>
+                <div className="modal--container">
+                    <h3 className="modal--container__title">Редактирвоать данные</h3>
+                    <div className="modal--form">
+                        <DropdownMenu
+                        defaultSelected={selectedRole}
+                        options={roles}
+                        onSelectOption={handleRoleSelect}
+                        />
+                    </div>
+                    <button 
+                    type="button"
+                    className="modal--button"
+                    >Сохранить изменения</button>
+                </div>
+            </Modal>
+        )}
+        {isDeleteModalOpen && (
+            <Modal onClose={() => setIsDeleteModalOpen(false)}>
+                <div className="modal--container">
+                    <h3 className="modal--container__title">Вы уверены, что хотите удалить этого пользователя?</h3>
+                    <div className="modal--exit-buttons">
+                        <button
+                        type="button"
+                        className="modal--exit-buttons__no"
+                        style={{
+                            backgroundColor: "#7CF981"
+                        }}
+                        >
+                            Нет
+                        </button>
+                        <button
+                        type="button"
+                        className="modal--exit-buttons__yes"
+                        style={{
+                            backgroundColor: "#FF6A6A"
+                        }}
+                        >
+                            Да
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+        )}
     </>)
 }

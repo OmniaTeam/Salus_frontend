@@ -4,6 +4,7 @@ import { EEventCategories } from '../models/EEventCategories'
 import { evaluatePerformance } from '../devtools/colorUtils'
 import { motion } from 'framer-motion'
 import { EUserRole } from '../models/EUserRole'
+import { useAppSelector } from '../hooks/redux'
 
 import EventCard from '../components/eventCard'
 
@@ -11,7 +12,7 @@ import userLogo from '../assets/userLogo.png'
 import loginIcon from '../assets/login.svg'
 import specIcon from '../assets/specLogo.png'
 import moderIcon from '../assets/moderLogo.png'
-import { useAppSelector } from '../hooks/redux'
+
 
 export default function ProfilePage() {
     const navigator = useNavigate()
@@ -48,7 +49,7 @@ export default function ProfilePage() {
                 <div className="profile--heading__avatar">
                     {getIcon(USER.role)}
                 </div>
-                <h2 className="profile--heading__fio">Фамилия И.О.</h2>
+                <h2 className="profile--heading__fio">{USER.fio}</h2>
             </motion.div>
             <motion.div 
             initial={{opacity: 0, y: 10}}

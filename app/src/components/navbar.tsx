@@ -76,7 +76,7 @@ export default function Navbar() {
                         : (<>{getIcon(USER.role)}</>)
                     }
                 </div>
-                <Link to='lectors' className="navbar--container__link">
+                <Link to={USER.role === EUserRole.moderator ? "users" : 'lectors'} className="navbar--container__link">
                     <img src={lectors} alt="" />
                 </Link>
                 <Link to='settings' className="navbar--container__link">

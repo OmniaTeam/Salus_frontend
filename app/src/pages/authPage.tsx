@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useNavigate } from "react-router-dom"
-import { useSignInMutation, useGetUserQuery } from "../services/authService"
+import { useGetUserQuery } from "../services/authService"
 import { useAppDispatch } from "../hooks/redux"
-import { setName, setRole, setLogin } from "../store/reducers/IUserSlice"
+import { setName, setRole, setLogin, setId } from "../store/reducers/IUserSlice"
 import { EUserRole } from "../models/EUserRole"
 
 export default function AuthPage() {
@@ -14,27 +14,12 @@ export default function AuthPage() {
     //@ts-ignore
     const [userPassword, setUserPassword] = useState<string>("")
 
-    const [signIn,
-        {
-            isSuccess,
-            data,
-            isLoading,
-            isError,
-            error
-        }] = useSignInMutation()
     const getUser = useGetUserQuery('')
-
-    //@ts-ignore
-    const authHandler = () => {
-        signIn({
-            login: userLogin,
-            password: userPassword,
-        })
-    }
 
     useEffect(() => {
 		if (getUser.isSuccess) {
             console.log(getUser)
+            dispatch(setId(getUser.data.id))
 			dispatch(setName(getUser.data.fio))
             dispatch(setLogin(getUser.data.login))
             switch (getUser.data.role) {
@@ -57,42 +42,42 @@ export default function AuthPage() {
 		}
 	}, [getUser]);
 
-    useEffect(() => {
-		if (isSuccess) {
-			dispatch(setLogin(userLogin))
-			//@ts-ignore
-			dispatch(setName(data.fio))
-			//@ts-ignore
-			dispatch(setId(data.id))
-			//@ts-ignore
-            switch (data.role) {
-                case EUserRole.speaker: {
-                    dispatch(setRole(EUserRole.speaker))
-				    navigator('/application')
-                    return
-                }
-                case EUserRole.worker: {
-                    dispatch(setRole(EUserRole.worker))
-				    navigator('/application')
-                    return
-                }
-                case EUserRole.moderator: {
-                    dispatch(setRole(EUserRole.moderator))
-				    navigator('/application')
-                    return
-                }
-                default: {
-                    dispatch(setRole(EUserRole.none))
-                }
-            }
-		}
-		else if (isLoading) {
-			console.log('Loading...')
-		}
-		else if (isError) {
-			console.log("Error!", error)
-		}
-	}, [isSuccess])
+    // useEffect(() => {
+	// 	if (isSuccess) {
+	// 		dispatch(setLogin(userLogin))
+	// 		//@ts-ignore
+	// 		dispatch(setName(data.fio))
+	// 		//@ts-ignore
+	// 		dispatch(setId(data.id))
+	// 		//@ts-ignore
+    //         switch (data.role) {
+    //             case EUserRole.speaker: {
+    //                 dispatch(setRole(EUserRole.speaker))
+	// 			    navigator('/application')
+    //                 return
+    //             }
+    //             case EUserRole.worker: {
+    //                 dispatch(setRole(EUserRole.worker))
+	// 			    navigator('/application')
+    //                 return
+    //             }
+    //             case EUserRole.moderator: {
+    //                 dispatch(setRole(EUserRole.moderator))
+	// 			    navigator('/application')
+    //                 return
+    //             }
+    //             default: {
+    //                 dispatch(setRole(EUserRole.none))
+    //             }
+    //         }
+	// 	}
+	// 	else if (isLoading) {
+	// 		console.log('Loading...')
+	// 	}
+	// 	else if (isError) {
+	// 		console.log("Error!", error)
+	// 	}
+	// }, [isSuccess])
 
     return (<>
         <main>

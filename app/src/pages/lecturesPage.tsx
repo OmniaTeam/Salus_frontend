@@ -11,6 +11,7 @@ import { setCategory } from "../store/reducers/ISettingsSlice"
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
 import DropdownMenu from "../components/dropdownMenu"
+import { useGetUserQuery } from "../services/authService"
 
 export default function LecturesPage() {
     const navigator = useNavigate()
@@ -19,6 +20,8 @@ export default function LecturesPage() {
     const USER = useAppSelector((state) => state.user)
     const SETTINGS = useAppSelector((state) => state.settings)
     
+    const getUser = useGetUserQuery('')
+
     const [isEventModalOpen, setIsEventModalOpen] = useState<boolean>(false);
     const [isSettingsModalOpen, setIsSettignsModalOpen] = useState<boolean>(false)
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState<boolean>(false)
@@ -213,6 +216,8 @@ export default function LecturesPage() {
             id: 3
         }
     ]
+
+    
 
     return (<>
         <div className="lectures">
