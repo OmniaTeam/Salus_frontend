@@ -42,13 +42,13 @@ export default function LecturesPage() {
                 console.log(value)
                 dispatch(setLecturesData({
                     id: 1,
-                    topic: "value.name",
+                    topic: value.name,
                     category: EEventCategories.psychology,
                     lectorName: "Lectore Name",
-                    date: "value.date.slice(0, 10)",
-                    time: "value.date.slice(11, 19)",
-                    platform: "value.connectType",
-                    link: "value.connectLink",
+                    date: value.date.slice(0, 10),
+                    time: value.date.slice(11, 19),
+                    platform: value.connectType,
+                    link: value.connectLink,
                 }))
             })
         }
