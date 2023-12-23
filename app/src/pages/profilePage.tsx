@@ -50,44 +50,64 @@ export default function ProfilePage() {
                 </div>
                 <h2 className="profile--heading__fio">{USER.fio}</h2>
             </motion.div>
-            <motion.div 
-            initial={{opacity: 0, y: 10}}
-            animate={{opacity: 1, y: 0}}
-            transition={{duration: 1, delay: 0.5}}
-            className='metrics'>
-                <div className="metrics--happiness">
-                    <p className='metrics--happiness__name'>Рейтинг довольства</p>
-                    <p className='metrics--happiness__value' style={{backgroundColor: evaluatePerformance(87)}}>87/100</p>
-                </div>
-                <div className="metrics--physical">
-                    <p className='metrics--physical__name'>Физическое здоровье</p>
-                    <p className='metrics--physical__value' style={{backgroundColor: evaluatePerformance(73)}}>73/100</p>
-                </div>
-                <div className="metrics--mental">
-                    <p className='metrics--mental__name'>Психическое здоровье</p>
-                    <p className='metrics--mental__value' style={{backgroundColor: evaluatePerformance(53)}}>53/100</p>
-                </div>
-            </motion.div>
-            <div className='profile--content'>
-                <EventCard 
-                type={EEventTypes.meetup} 
-                title="Фамилия Имя Отчество"
-                firstLine="Специальность: Психолог" 
-                secondLine="Оценка: 9.8/10"
-                buttonText="подробнее"
-                category={EEventCategories.psychology}
-                click={() => navigator('/application/lector/1')}
-                />
-                <EventCard 
-                type={EEventTypes.meetup} 
-                title="Фамилия Имя Отчество"
-                firstLine="Специальность: Финансист" 
-                secondLine="Оценка: 9.5/10"
-                buttonText="подробнее"
-                category={EEventCategories.finance}
-                click={() => navigator('/application/lector/2')}
-                />
-            </div>
+            {USER.role === EUserRole.moderator
+                ? (<></>)
+                : (<>
+                    <motion.div 
+                    initial={{opacity: 0, y: 10}}
+                    animate={{opacity: 1, y: 0}}
+                    transition={{duration: 1, delay: 0.5}}
+                    className='metrics'>
+                        {USER.role === EUserRole.speaker
+                            ? (<>
+                                <div className="metrics--happiness">
+                                    <p className='metrics--happiness__name'>Рейтинг</p>
+                                    <p className='metrics--happiness__value' style={{backgroundColor: evaluatePerformance(87)}}>9.8/10</p>
+                                </div>
+                            </>)
+                            : (<>
+                                <div className="metrics--happiness">
+                                    <p className='metrics--happiness__name'>Рейтинг довольства</p>
+                                    <p className='metrics--happiness__value' style={{backgroundColor: evaluatePerformance(87)}}>87/100</p>
+                                </div>
+                                <div className="metrics--physical">
+                                    <p className='metrics--physical__name'>Физическое здоровье</p>
+                                    <p className='metrics--physical__value' style={{backgroundColor: evaluatePerformance(73)}}>73/100</p>
+                                </div>
+                                <div className="metrics--mental">
+                                    <p className='metrics--mental__name'>Психическое здоровье</p>
+                                    <p className='metrics--mental__value' style={{backgroundColor: evaluatePerformance(53)}}>53/100</p>
+                                </div>
+                            </>)
+                        }
+                    </motion.div>   
+                </>)
+            }
+            {USER.role === EUserRole.moderator
+                ? (<></>)
+                : (<>
+                    <div className='profile--content'>
+                        <EventCard 
+                        type={EEventTypes.meetup} 
+                        title="Фамилия Имя Отчество"
+                        firstLine="Специальность: Психолог" 
+                        secondLine="Оценка: 9.8/10"
+                        buttonText="подробнее"
+                        category={EEventCategories.psychology}
+                        click={() => navigator('/application/lector/1')}
+                        />
+                        <EventCard 
+                        type={EEventTypes.meetup} 
+                        title="Фамилия Имя Отчество"
+                        firstLine="Специальность: Финансист" 
+                        secondLine="Оценка: 9.5/10"
+                        buttonText="подробнее"
+                        category={EEventCategories.finance}
+                        click={() => navigator('/application/lector/2')}
+                        />
+                    </div>
+                </>)
+            }
         </div>
     </>)
 }
