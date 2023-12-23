@@ -34,18 +34,25 @@ export default function AuthPage() {
 
     useEffect(() => {
 		if (getUser.isSuccess) {
-			dispatch(setName(getUser.data.login))
-			if (getUser.data.role === 'SPEAKER') {
-				dispatch(setRole(EUserRole.speaker))
-				navigator('/application')
-			}
-			if (getUser.data.role === 'WORKER') {
-				dispatch(setRole(EUserRole.worker))
-				navigator('/application')
-			}
-            if (getUser.data.role === 'ADMIN') {
-                dispatch(setRole(EUserRole.moderator))
-                navigator('/application')
+            console.log(getUser)
+			dispatch(setName(getUser.data.fio))
+            dispatch(setLogin(getUser.data.login))
+            switch (getUser.data.role) {
+                case "SPEAKER": {
+                    dispatch(setRole(EUserRole.speaker))
+				    navigator('/application')
+                    return
+                }
+                case "WORKER": {
+                    dispatch(setRole(EUserRole.worker))
+				    navigator('/application')
+                    return
+                }
+                case "ADMIN": {
+                    dispatch(setRole(EUserRole.moderator))
+				    navigator('/application')
+                    return
+                }
             }
 		}
 	}, [getUser]);
@@ -58,23 +65,26 @@ export default function AuthPage() {
 			//@ts-ignore
 			dispatch(setId(data.id))
 			//@ts-ignore
-			if (data.role === EUserRole.speaker) {
-				dispatch(setRole(EUserRole.speaker))
-				navigator('/application')
-			}
-			//@ts-ignore
-			if (data.role === EUserRole.worker) {
-				dispatch(setRole(EUserRole.worker))
-				navigator('/application')
-			}
-            //@ts-ignore
-            if (data.role === EUserRole.moderator) {
-				dispatch(setRole(EUserRole.moderator))
-				navigator('/application')
-			}
-			else {
-				dispatch(setRole(EUserRole.none))
-			}
+            switch (data.role) {
+                case EUserRole.speaker: {
+                    dispatch(setRole(EUserRole.speaker))
+				    navigator('/application')
+                    return
+                }
+                case EUserRole.worker: {
+                    dispatch(setRole(EUserRole.worker))
+				    navigator('/application')
+                    return
+                }
+                case EUserRole.moderator: {
+                    dispatch(setRole(EUserRole.moderator))
+				    navigator('/application')
+                    return
+                }
+                default: {
+                    dispatch(setRole(EUserRole.none))
+                }
+            }
 		}
 		else if (isLoading) {
 			console.log('Loading...')
