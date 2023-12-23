@@ -13,6 +13,7 @@ import { setLecturesData } from "../store/reducers/ILecturesSlice"
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
 import DropdownMenu from "../components/dropdownMenu"
+import { clearLectorsData } from "../store/reducers/ILectorsSlice"
 
 export default function LecturesPage() {
     const navigator = useNavigate()
@@ -37,6 +38,7 @@ export default function LecturesPage() {
 
     useEffect(() => {
         if (lecturesQuery.isSuccess) {
+            dispatch(clearLectorsData([]))
             lecturesQuery.data.map((value) => {
                 dispatch(setLecturesData(
                 {
