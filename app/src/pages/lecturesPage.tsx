@@ -39,6 +39,7 @@ export default function LecturesPage() {
         if (useGetAllLecturesQuery.isSuccess) {
             console.log(useGetAllLecturesQuery.data)
             useGetAllLecturesQuery.data.map((value) => {
+                console.log(value)
                 setLecturesData({
                     id: value.id,
                     topic: value.name,
