@@ -12,7 +12,7 @@ export const DataService = createApi({
 		getLecturesByDate : build.query<ILectureReq[], string>({
 			query : (data) => ({
 				// 2023-12-23
-				url : `/meet/lecture/all?date=${data.slice(0, 19)}`,
+				url : `/meet/lecture/all?date=${data.slice(0, 10)}T00:00:00`,
 				headers : {
 					"Content-Type": "application/json",
 				},
