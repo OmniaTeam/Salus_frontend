@@ -41,7 +41,7 @@ export default function LecturesPage() {
             lecturesQuery.data.map((value) => {
                 console.log(value)
                 dispatch(setLecturesData({
-                    id: 1,
+                    id: value.id,
                     topic: value.name,
                     category: EEventCategories.psychology,
                     lectorName: "Lectore Name",
