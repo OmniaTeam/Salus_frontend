@@ -311,26 +311,31 @@ export default function LecturesPage() {
                 </div>
             </div>
             <div className="lectures--content">
-                {LECTURES.value.map((value, index) => (
-                <motion.div 
-                initial={{opacity: 0, y: 10}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 1}}
-                key={index}>
-                    <EventCard 
-                    type={EEventTypes.lecture} 
-                    title={value.topic}
-                    firstLine={value.category} 
-                    secondLine={value.lectorName}
-                    thirdLine={value.date + "-" + value.time}
-                    buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                    category={value.category}
-                    click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
-                    edit={() => setIsEditEventModalOpen(true)}
-                    delete={() => setIsDeleteModalOpen(true)}
-                    />
-                </motion.div>))
-                } 
+                {useGetAllLecturesQuery.isSuccess
+                    ? (<>
+                        {LECTURES.value.map((value, index) => (
+                            <motion.div 
+                            initial={{opacity: 0, y: 10}}
+                            animate={{opacity: 1, y: 0}}
+                            transition={{duration: 1}}
+                            key={index}>
+                                <EventCard 
+                                type={EEventTypes.lecture} 
+                                title={value.topic}
+                                firstLine={value.category} 
+                                secondLine={value.lectorName}
+                                thirdLine={value.date + "-" + value.time}
+                                buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
+                                category={value.category}
+                                click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                                edit={() => setIsEditEventModalOpen(true)}
+                                delete={() => setIsDeleteModalOpen(true)}
+                                />
+                            </motion.div>))
+                        } 
+                    </>)
+                    : (<></>)
+                }
             </div>
         </div>
         {isEventModalOpen && (
