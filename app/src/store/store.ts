@@ -8,6 +8,8 @@ import { ILectureSlice } from "./reducers/ILectureSlice";
 import { ILecturesSlice } from "./reducers/ILecturesSlice";
 import { IMeetupSlice } from "./reducers/IMeetupSlice";
 import { IMeetupsSlice } from "./reducers/IMeetupsSlice";
+import { ILectorSlice } from "./reducers/ILectorSlice";
+import { ILectorsSlice } from "./reducers/ILectorsSlice";
 
 const rootReducer = combineReducers({
 	[AuthService.reducerPath] : AuthService.reducer,
@@ -17,7 +19,9 @@ const rootReducer = combineReducers({
 	lecture : ILectureSlice.reducer,
 	lectures : ILecturesSlice.reducer,
 	meetup : IMeetupSlice.reducer,
-	meetups : IMeetupsSlice.reducer
+	meetups : IMeetupsSlice.reducer,
+	lector : ILectorSlice.reducer,
+	lectors : ILectorsSlice.reducer
 })
 
 export const setupStore = () => configureStore({

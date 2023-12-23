@@ -7,6 +7,7 @@ const initialState: IMeetup = {
     workerName: "nothing",
     date: "00-00-0000",
     time: "00-00",
+    platform: "nothing",
     link: "nothing"
 } 
 
@@ -29,6 +30,9 @@ export const IMeetupSlice = createSlice({
         setMeetupTime : (state, action : PayloadAction<string>) => {
             state.time = action.payload
         },
+        setMeetupPlatform : (state, action : PayloadAction<string>) => {
+            state.platform = action.payload
+        },
         setMeetupLink : (state, action : PayloadAction<string>) => {
             state.link = action.payload
         }
@@ -41,5 +45,6 @@ export const {
     setWorkerName,
     setMeetupDate,
     setMeetupTime,
+    setMeetupPlatform,
     setMeetupLink
 } = IMeetupSlice.actions

@@ -4,6 +4,7 @@ export interface IMeetup {
     workerName : string,
     date : string,
     time : string,
+    platform : string,
     link : string
 }
 

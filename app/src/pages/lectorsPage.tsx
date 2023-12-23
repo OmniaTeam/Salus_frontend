@@ -13,6 +13,8 @@ export default function LectorsPage() {
     const navigator = useNavigate()
 
     const USER = useAppSelector((state) => state.user)
+    const LECTORS = useAppSelector((state) => state.lectors)
+    const MEETUPS = useAppSelector((state) => state.meetups)
 
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
     const [isSettingsModalOpen, setIsSettignsModalOpen] = useState<boolean>(false)
@@ -68,62 +70,30 @@ export default function LectorsPage() {
             <div className="lectors--content">
                 {USER.role === EUserRole.speaker
                     ? (<>
-                        <EventCard 
-                        type={EEventTypes.meetup} 
-                        title="Индивидуальный митап"
-                        firstLine="Фамилия И.О." 
-                        secondLine="22.12.2023-14:00"
-                        buttonText="подробнее"
-                        category={EEventCategories.psychology}
-                        click={() => navigator('/application/lector/1')}
-                        />
-                        <EventCard 
-                        type={EEventTypes.meetup} 
-                        title="Индивидуальный митап"
-                        firstLine="Фамилия И.О." 
-                        secondLine="22.12.2023-14:00"
-                        buttonText="подробнее"
-                        category={EEventCategories.finance}
-                        click={() => navigator('/application/lector/2')}
-                        />
-                        <EventCard 
-                        type={EEventTypes.meetup} 
-                        title="Индивидуальный митап"
-                        firstLine="Фамилия И.О." 
-                        secondLine="22.12.2023-14:00"
-                        buttonText="подробнее"
-                        category={EEventCategories.health}
-                        click={() => navigator('/application/lector/3')}
-                        />
+                        {MEETUPS.value.map((value, index) => (<div key={index}>
+                            <EventCard 
+                            type={EEventTypes.meetup} 
+                            title={value.meetupName}
+                            firstLine={value.workerName} 
+                            secondLine={`${value.date}-${value.time}`}
+                            buttonText="подробнее"
+                            category={EEventCategories.psychology}
+                            click={() => navigator(`/application/lector/${value.id}`)}
+                            />
+                        </div>))}
                     </>)
                     : (<>
-                        <EventCard 
-                        type={EEventTypes.meetup} 
-                        title="Фамилия Имя Отчество"
-                        firstLine="Специальность: Психолог" 
-                        secondLine="Оценка: 9.8/10"
-                        buttonText="подробнее"
-                        category={EEventCategories.psychology}
-                        click={() => navigator('/application/lector/1')}
-                        />
-                        <EventCard 
-                        type={EEventTypes.meetup} 
-                        title="Фамилия Имя Отчество"
-                        firstLine="Специальность: Финансист" 
-                        secondLine="Оценка: 9.5/10"
-                        buttonText="подробнее"
-                        category={EEventCategories.finance}
-                        click={() => navigator('/application/lector/2')}
-                        />
-                        <EventCard 
-                        type={EEventTypes.meetup} 
-                        title="Фамилия Имя Отчество"
-                        firstLine="Специальность: Фитнес коуч" 
-                        secondLine="Оценка: 9.7/10"
-                        buttonText="подробнее"
-                        category={EEventCategories.health}
-                        click={() => navigator('/application/lector/3')}
-                        />
+                        {LECTORS.value.map((value, index) => (<div key={index}>
+                            <EventCard 
+                            type={EEventTypes.meetup} 
+                            title={value.lectorName}
+                            firstLine={`Специальность: ${value.lectorCategory}`} 
+                            secondLine={String(value.rating)}
+                            buttonText="подробнее"
+                            category={value.lectorCategory}
+                            click={() => navigator(`/application/lector/${value.id}`)}
+                            />
+                        </div>))}
                     </>)
                 }
             </div>
