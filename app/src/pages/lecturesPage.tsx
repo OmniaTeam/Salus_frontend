@@ -37,6 +37,7 @@ export default function LecturesPage() {
 
     useEffect(() => {
         if (useGetAllLecturesQuery.isSuccess) {
+            console.log(useGetAllLecturesQuery.data)
             useGetAllLecturesQuery.data.map((value) => {
                 setLecturesData({
                     id: value.id,
