@@ -32,7 +32,7 @@ export default function LecturesPage() {
     const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
-    const { isLoading, error } = useGetLecturesByDateQuery(selectedDate)
+    const { isLoading, isError } = useGetLecturesByDateQuery(selectedDate)
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(
@@ -287,7 +287,7 @@ export default function LecturesPage() {
             <div className="lectures--content">{
                 isLoading 
                     ? <>Loading...</>
-                    : <>{ error !== null
+                    : <>{ isError
                         ? <>Error</>
                         : <>{
                             LECTURES.value.forEach((elem, index) => (
