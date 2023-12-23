@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
-import { useGetLecturesByDateQuery, useGetSubjectByIdQuery } from "../services/dataService"
+import { useGetLecturesByDateQuery } from "../services/dataService"
 import { clearLecturesData } from "../store/reducers/ILecturesSlice"
 
 import EventCard from "../components/eventCard"
@@ -32,19 +32,15 @@ export default function LecturesPage() {
     const [selectedLector, setSelectedLector] = useState<string>('Выберите сотрудника')
     const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
-    const [subjectId, setSubjectId] = useState<number>(0)
 
     const useGetAllLecturesQuery = useGetLecturesByDateQuery(new Date().toISOString())
-    const useGetSubjectNameByIdQuery = useGetSubjectByIdQuery(subjectId)
     
 
     useEffect(() => {
         if (useGetAllLecturesQuery.isSuccess) {
             dispatch(clearLecturesData([]))
-            //@ts-ignore
             useGetAllLecturesQuery.data.map((value) => {
-                setSubjectId(value.subjectId)
-                console.log(value, useGetSubjectNameByIdQuery?.data)
+                console.log(value)
             })
         }
     }, [useGetAllLecturesQuery])
