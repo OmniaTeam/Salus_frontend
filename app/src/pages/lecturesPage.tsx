@@ -8,7 +8,7 @@ import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
 import { useGetLecturesByDateQuery } from "../services/dataService"
-import { clearLecturesData, setLecturesData } from "../store/reducers/ILecturesSlice"
+import { setLecturesData } from "../store/reducers/ILecturesSlice"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
