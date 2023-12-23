@@ -40,7 +40,7 @@ export default function LecturesPage() {
         if (lecturesQuery.isSuccess) {
             dispatch(clearLectorsData([]))
             if (lecturesQuery.data.length !== 0) {
-                lecturesQuery.data.map((value) => {
+                lecturesQuery.data.forEach(async (value) => {
                     dispatch(setLecturesData(
                     {
                         meet_id: value.meet_id,
