@@ -233,8 +233,6 @@ export default function LecturesPage() {
         }
     ]
 
-    useEffect(() => {}, [LECTURES])
-
     return (<>
         <div className="lectures">
             <div className='lectures--heading'>
