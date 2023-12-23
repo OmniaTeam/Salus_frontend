@@ -14,6 +14,7 @@ import { clearLectorsData } from "../store/reducers/ILectorsSlice"
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
 import DropdownMenu from "../components/dropdownMenu"
+import { ILecture } from "../models/ILecture"
 
 export default function LecturesPage() {
     const navigator = useNavigate()
@@ -40,20 +41,26 @@ export default function LecturesPage() {
         if (lecturesQuery.isSuccess) {
             dispatch(clearLectorsData([]))
             if (lecturesQuery.data.length !== 0) {
+                const uniqueLectures : ILecture[] = [];
                 lecturesQuery.data.forEach(async (value) => {
-                    dispatch(setLecturesData(
-                    {
-                        meet_id: value.meet_id,
-                        meet_name: value.meet_name,
-                        subject: EEventCategories.psychology,
-                        speaker_name: value.speaker_name,
-                        date: value.date.slice(0, 10),
-                        time: value.date.slice(11, 19),
-                        platform: value.platform,
-                        link: value.link
-                    }))
-                    console.log(LECTURES)
-                })
+                    const isDuplicate = uniqueLectures.some((lecture) => lecture.meet_id === value.meet_id);
+                    if (!isDuplicate) {
+                        uniqueLectures.push({
+                            meet_id: value.meet_id,
+                            meet_name: value.meet_name,
+                            subject: EEventCategories.psychology,
+                            speaker_name: value.speaker_name,
+                            date: value.date.slice(0, 10),
+                            time: value.date.slice(11, 19),
+                            platform: value.platform,
+                            link: value.link
+                        });
+                    }
+                });
+                uniqueLectures.forEach((lecture) => {
+                    dispatch(setLecturesData(lecture));
+                });
+                console.log(LECTURES);
             }
         }
         if (lecturesQuery.isLoading) {
