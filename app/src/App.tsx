@@ -22,6 +22,7 @@ import LecturesPage from "./pages/lecturesPage.tsx";
 import LectorsPage from "./pages/lectorsPage.tsx";
 import LectorPage from "./pages/lectorPage.tsx";
 import ProfilePage from "./pages/profilePage.tsx";
+import UsersPage from "./pages/usersPage.tsx";
 
 const store = setupStore()
 
@@ -55,6 +56,7 @@ const App = () => {
                             <Route path="lectures" element={<LecturesPage/>}/>
                             <Route path="lectors" element={<LectorsPage/>}/>
                             <Route path="lector/:id" element={<LectorPage/>}/>
+                            <Route path="users" element={<UsersPage/>}/>
                             <Route path="meditations" element={<MeditationsPage/>}/>
                             <Route path="settings" element={<SettingsPage/>}/>
                             <Route path="statistics" element={<StatisticsPage/>}/>

@@ -21,7 +21,7 @@ export const AuthService = createApi({
 		}),
 		getUser : build.query<IUser, any>({
 			query : () => ({
-				url : "/authentication",
+				url : "/user",
 				headers : {
 					"Content-Type": "application/json",
 				},

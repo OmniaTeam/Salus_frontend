@@ -1,6 +1,6 @@
 export enum EUserRole {
     worker = "WORKER",
     speaker = "SPEAKER",
-    moderator = "MODERATOR",
+    moderator = "ADMIN",
     none = "NONE"
 }

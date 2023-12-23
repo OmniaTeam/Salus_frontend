@@ -43,6 +43,10 @@ export default function AuthPage() {
 				dispatch(setRole(EUserRole.worker))
 				navigator('/application')
 			}
+            if (getUser.data.role === 'ADMIN') {
+                dispatch(setRole(EUserRole.moderator))
+                navigator('/application')
+            }
 		}
 	}, [getUser]);
 
@@ -61,6 +65,11 @@ export default function AuthPage() {
 			//@ts-ignore
 			if (data.role === EUserRole.worker) {
 				dispatch(setRole(EUserRole.worker))
+				navigator('/application')
+			}
+            //@ts-ignore
+            if (data.role === EUserRole.moderator) {
+				dispatch(setRole(EUserRole.moderator))
 				navigator('/application')
 			}
 			else {
