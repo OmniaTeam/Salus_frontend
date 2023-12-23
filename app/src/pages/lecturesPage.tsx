@@ -8,7 +8,7 @@ import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
 import { useGetLecturesByDateQuery } from "../services/dataService"
-import { clearLecturesData } from "../store/reducers/ILecturesSlice"
+import { clearLecturesData, setLecturesData } from "../store/reducers/ILecturesSlice"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
@@ -34,13 +34,21 @@ export default function LecturesPage() {
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
     const useGetAllLecturesQuery = useGetLecturesByDateQuery(new Date().toISOString())
-    
 
     useEffect(() => {
         if (useGetAllLecturesQuery.isSuccess) {
             dispatch(clearLecturesData([]))
             useGetAllLecturesQuery.data.map((value) => {
-                console.log(value)
+                setLecturesData({
+                    id: value.id,
+                    topic: value.name,
+                    category: EEventCategories.psychology,
+                    lectorName: "Lectore Name",
+                    date: value.date.slice(0, 10),
+                    time: value.date.slice(11, 19),
+                    platform: value.connectType,
+                    link: value.connectLink,
+                })
             })
         }
     }, [useGetAllLecturesQuery])
