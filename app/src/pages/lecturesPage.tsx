@@ -33,29 +33,29 @@ export default function LecturesPage() {
     const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
-    const useGetAllLecturesQuery = useGetLecturesByDateQuery(selectedDate)
+    const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
 
     useEffect(() => {
-        if (useGetAllLecturesQuery.isSuccess) {
-            console.log(useGetAllLecturesQuery.data)
-            useGetAllLecturesQuery.data.map((value) => {
+        if (lecturesQuery.isSuccess) {
+            console.log(lecturesQuery.data)
+            lecturesQuery.data.map((value) => {
                 console.log(value)
                 setLecturesData({
-                    id: value.id,
-                    topic: value.name,
+                    id: 1,
+                    topic: "value.name",
                     category: EEventCategories.psychology,
                     lectorName: "Lectore Name",
-                    date: value.date.slice(0, 10),
-                    time: value.date.slice(11, 19),
-                    platform: value.connectType,
-                    link: value.connectLink,
+                    date: "value.date.slice(0, 10)",
+                    time: "value.date.slice(11, 19)",
+                    platform: "value.connectType",
+                    link: "value.connectLink",
                 })
             })
         }
-        if (useGetAllLecturesQuery.isLoading) {
+        if (lecturesQuery.isLoading) {
             console.log("Loading...")
         }
-        if (useGetAllLecturesQuery.isError) {
+        if (lecturesQuery.isError) {
             console.log("Error")
         }
     })
@@ -311,7 +311,7 @@ export default function LecturesPage() {
                 </div>
             </div>
             <div className="lectures--content">
-                {useGetAllLecturesQuery.isSuccess
+                {lecturesQuery.isSuccess
                     ? (<>
                         {LECTURES.value.map((value, index) => (
                             <motion.div 
