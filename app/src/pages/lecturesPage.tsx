@@ -37,9 +37,7 @@ export default function LecturesPage() {
 
     useEffect(() => {
         if (lecturesQuery.isSuccess) {
-            console.log(lecturesQuery.data)
             lecturesQuery.data.map((value) => {
-                console.log(value)
                 dispatch(setLecturesData({
                     id: value.id,
                     topic: value.name,
@@ -50,6 +48,7 @@ export default function LecturesPage() {
                     platform: value.connectType,
                     link: value.connectLink,
                 }))
+                console.log(LECTURES)
             })
         }
         if (lecturesQuery.isLoading) {
@@ -58,7 +57,7 @@ export default function LecturesPage() {
         if (lecturesQuery.isError) {
             console.log("Error")
         }
-    }, [lecturesQuery])
+    }, [LECTURES])
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(
@@ -313,7 +312,7 @@ export default function LecturesPage() {
             <div className="lectures--content">
                 {lecturesQuery.isSuccess
                     ? (<>
-                        {LECTURES.value.map((value, index) => (
+                        {LECTURES.value.map((elem, index) => (
                             <motion.div 
                             initial={{opacity: 0, y: 10}}
                             animate={{opacity: 1, y: 0}}
@@ -321,12 +320,12 @@ export default function LecturesPage() {
                             key={index}>
                                 <EventCard 
                                 type={EEventTypes.lecture} 
-                                title={value.topic}
-                                firstLine={value.category} 
-                                secondLine={value.lectorName}
-                                thirdLine={value.date + "-" + value.time}
+                                title={elem.topic}
+                                firstLine={elem.category} 
+                                secondLine={elem.lectorName}
+                                thirdLine={elem.date + "-" + elem.time}
                                 buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                                category={value.category}
+                                category={elem.category}
                                 click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
                                 edit={() => setIsEditEventModalOpen(true)}
                                 delete={() => setIsDeleteModalOpen(true)}
