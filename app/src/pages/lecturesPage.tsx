@@ -285,10 +285,10 @@ export default function LecturesPage() {
                 </div>
             </div>
             <div className="lectures--content">{
-                error 
-                    ? <></>
-                    : <>{ isLoading
-                        ? <>Loding...</>
+                isLoading 
+                    ? <>Loading...</>
+                    : <>{ error !== null
+                        ? <>Error</>
                         : <>{
                             LECTURES.value.forEach((elem, index) => (
                                 <motion.div 
