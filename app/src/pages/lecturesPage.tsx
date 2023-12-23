@@ -43,8 +43,8 @@ export default function LecturesPage() {
                     topic: value.name,
                     category: EEventCategories.psychology,
                     lectorName: "Lectore Name",
-                    date: value.date.slice(0, 10),
-                    time: value.date.slice(11, 19),
+                    date: value.date,
+                    time: value.date,
                     platform: value.connectType,
                     link: value.connectLink,
                 }))
