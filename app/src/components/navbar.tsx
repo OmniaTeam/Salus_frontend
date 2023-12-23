@@ -15,6 +15,14 @@ import loginIcon from '../assets/login.svg'
 
 export default function Navbar() {
     const USER = useAppSelector((state) => state.user)
+    
+    const logOutHandler = async () => await fetch(
+		"https://salus.the-omnia.ru/api/v3/logout", {
+			method: "GET",
+			headers : {
+				"Content-Type": "application/json",
+			}
+	})
 
     const getIcon = (userRole : EUserRole) => {
         switch (userRole) {
@@ -67,9 +75,7 @@ export default function Navbar() {
                     {window.location.pathname.split('/')[window.location.pathname.split('/').length - 1] === "profile"
                         ? (<div
                             className="avatar-wrapper--exit"
-                            onClick={() => {
-                                console.log("Logged out!")
-                            }}
+                            onClick={logOutHandler}
                         >
                             <img src={exitIcon} alt="Exit" />
                         </div>)

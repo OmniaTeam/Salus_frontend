@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { EEventTypes } from "../models/EEventTypes"
 import { EEventCategories } from "../models/EEventCategories"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
@@ -17,6 +17,7 @@ export default function LecturesPage() {
     const dispatch = useAppDispatch()
 
     const USER = useAppSelector((state) => state.user)
+    const LECTURES = useAppSelector((state) => state.lectures)
     const SETTINGS = useAppSelector((state) => state.settings)
     
     const [isEventModalOpen, setIsEventModalOpen] = useState<boolean>(false);
@@ -214,6 +215,8 @@ export default function LecturesPage() {
         }
     ]
 
+    useEffect(() => {}, [LECTURES])
+
     return (<>
         <div className="lectures">
             <div className='lectures--heading'>
@@ -281,45 +284,26 @@ export default function LecturesPage() {
                 </div>
             </div>
             <div className="lectures--content">
-                {
-                    //TODO: сделать вывод всех лекций в зависимости от роли юзера и выбора даты
+                {LECTURES.value.map((value, index) => (
+                <motion.div 
+                initial={{opacity: 0, y: 10}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 1}}
+                key={index}>
+                    <EventCard 
+                    type={EEventTypes.lecture} 
+                    title={value.topic}
+                    firstLine={value.category} 
+                    secondLine={value.lectorName}
+                    thirdLine={value.date + "-" + value.time}
+                    buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
+                    category={value.category}
+                    click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                    edit={() => setIsEditEventModalOpen(true)}
+                    delete={() => setIsDeleteModalOpen(true)}
+                    />
+                </motion.div>))
                 } 
-                <EventCard 
-                type={EEventTypes.lecture} 
-                title="Тема лекции"
-                firstLine="Психология" 
-                secondLine="Фамилия И.О."
-                thirdLine="22.12.2023-14:00"
-                buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                category={EEventCategories.psychology}
-                click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
-                edit={() => setIsEditEventModalOpen(true)}
-                delete={() => setIsDeleteModalOpen(true)}
-                />
-                <EventCard 
-                type={EEventTypes.lecture} 
-                title="Тема лекции"
-                firstLine="Финансы" 
-                secondLine="Фамилия И.О."
-                thirdLine="22.12.2023-18:00"
-                buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                category={EEventCategories.finance}
-                click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
-                edit={() => setIsEditEventModalOpen(true)}
-                delete={() => setIsDeleteModalOpen(true)}
-                />
-                <EventCard 
-                type={EEventTypes.lecture} 
-                title="Тема лекции"
-                firstLine="Здоровье" 
-                secondLine="Фамилия И.О."
-                thirdLine="22.12.2023-21:00"
-                buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                category={EEventCategories.health}
-                click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
-                edit={() => setIsEditEventModalOpen(true)}
-                delete={() => setIsDeleteModalOpen(true)}
-                />
             </div>
         </div>
         {isEventModalOpen && (
