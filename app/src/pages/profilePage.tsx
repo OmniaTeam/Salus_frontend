@@ -11,6 +11,7 @@ import EventCard from '../components/eventCard'
 import userLogo from '../assets/userLogo.png'
 import specIcon from '../assets/specLogo.png'
 import moderIcon from '../assets/moderLogo.png'
+import exitIcon from '../assets/exit.svg'
 
 
 export default function ProfilePage() {
@@ -21,8 +22,7 @@ export default function ProfilePage() {
     const getIcon = (userRole : EUserRole) => {
         switch (userRole) {
             case EUserRole.none: {
-                window.location.href = "https://salus.the-omnia.ru/"
-                return
+                return <img src={exitIcon} alt="" />
             }
             case EUserRole.speaker: {
                 return <img src={specIcon} alt="" />
