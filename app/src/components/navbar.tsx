@@ -26,11 +26,13 @@ export default function Navbar() {
 				"Content-Type": "application/json",
 			}
 	}).then((result) => {
+        console.log("Status", result.status)
         if (result.ok) {
             dispatch(setRole(EUserRole.none))
             window.location.reload()
         }
         if (result.status === 302) {
+            console.log(result)
             window.location.href = 'https://salus.the-omnia.ru/'
         }
     })

@@ -21,7 +21,7 @@ export default function ProfilePage() {
     const getIcon = (userRole : EUserRole) => {
         switch (userRole) {
             case EUserRole.none: {
-                navigator('/')
+                window.location.href = "https://salus.the-omnia.ru/"
                 return
             }
             case EUserRole.speaker: {
