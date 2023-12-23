@@ -25,10 +25,15 @@ export default function Navbar() {
 			headers : {
 				"Content-Type": "application/json",
 			}
-	}).then((result) => {if (result.ok) {
-        dispatch(setRole(EUserRole.none))
-        window.location.reload()
-    }})
+	}).then((result) => {
+        if (result.ok) {
+            dispatch(setRole(EUserRole.none))
+            window.location.reload()
+        }
+        if (result.status === 302) {
+            window.location.href = 'https://salus.the-omnia.ru/'
+        }
+    })
 
     const getIcon = (userRole : EUserRole) => {
         switch (userRole) {

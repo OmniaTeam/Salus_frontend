@@ -9,7 +9,6 @@ import { useAppSelector } from '../hooks/redux'
 import EventCard from '../components/eventCard'
 
 import userLogo from '../assets/userLogo.png'
-import loginIcon from '../assets/login.svg'
 import specIcon from '../assets/specLogo.png'
 import moderIcon from '../assets/moderLogo.png'
 
@@ -22,8 +21,8 @@ export default function ProfilePage() {
     const getIcon = (userRole : EUserRole) => {
         switch (userRole) {
             case EUserRole.none: {
-                return <img src={loginIcon} alt="" />
-
+                navigator('/')
+                return
             }
             case EUserRole.speaker: {
                 return <img src={specIcon} alt="" />
