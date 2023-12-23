@@ -39,20 +39,22 @@ export default function LecturesPage() {
     useEffect(() => {
         if (lecturesQuery.isSuccess) {
             dispatch(clearLectorsData([]))
-            lecturesQuery.data.map((value) => {
-                dispatch(setLecturesData(
-                {
-                    meet_id: value.meet_id,
-                    meet_name: value.meet_name,
-                    subject: EEventCategories.psychology,
-                    speaker_name: value.speaker_name,
-                    date: value.date.slice(0, 10),
-                    time: value.date.slice(11, 19),
-                    platform: value.platform,
-                    link: value.link
-                }))
-                console.log(LECTURES)
-            })
+            if (lecturesQuery.data.length !== 0) {
+                lecturesQuery.data.map((value) => {
+                    dispatch(setLecturesData(
+                    {
+                        meet_id: value.meet_id,
+                        meet_name: value.meet_name,
+                        subject: EEventCategories.psychology,
+                        speaker_name: value.speaker_name,
+                        date: value.date.slice(0, 10),
+                        time: value.date.slice(11, 19),
+                        platform: value.platform,
+                        link: value.link
+                    }))
+                    console.log(LECTURES)
+                })
+            }
         }
         if (lecturesQuery.isLoading) {
             console.log("Loading...")
