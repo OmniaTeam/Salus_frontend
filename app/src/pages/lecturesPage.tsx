@@ -57,7 +57,7 @@ export default function LecturesPage() {
         if (useGetAllLecturesQuery.isError) {
             console.log("Error")
         }
-    }, [selectedDate])
+    })
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(
