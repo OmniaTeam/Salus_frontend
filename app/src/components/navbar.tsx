@@ -1,7 +1,8 @@
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
-import { useAppSelector } from "../hooks/redux"
+import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
+import { setRole } from "../store/reducers/IUserSlice"
 
 import userLogo from '../assets/userLogo.png'
 import specLogo from '../assets/specLogo.png'
@@ -14,6 +15,8 @@ import exitIcon from '../assets/exit.svg'
 import loginIcon from '../assets/login.svg'
 
 export default function Navbar() {
+    const dispatch = useAppDispatch()
+
     const USER = useAppSelector((state) => state.user)
     
     const logOutHandler = async () => await fetch(
@@ -22,7 +25,10 @@ export default function Navbar() {
 			headers : {
 				"Content-Type": "application/json",
 			}
-	})
+	}).then((result) => {if (result.ok) {
+        dispatch(setRole(EUserRole.none))
+        window.location.reload()
+    }})
 
     const getIcon = (userRole : EUserRole) => {
         switch (userRole) {
