@@ -51,6 +51,12 @@ export default function LecturesPage() {
                 })
             })
         }
+        if (useGetAllLecturesQuery.isLoading) {
+            console.log("Loading...")
+        }
+        if (useGetAllLecturesQuery.isError) {
+            console.log("Error")
+        }
     }, [selectedDate])
 
     const handleCategoriesSelect = (category: string) => {
