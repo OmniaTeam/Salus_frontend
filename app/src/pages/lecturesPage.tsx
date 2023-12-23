@@ -40,7 +40,7 @@ export default function LecturesPage() {
             console.log(lecturesQuery.data)
             lecturesQuery.data.map((value) => {
                 console.log(value)
-                setLecturesData({
+                dispatch(setLecturesData({
                     id: 1,
                     topic: "value.name",
                     category: EEventCategories.psychology,
@@ -49,7 +49,7 @@ export default function LecturesPage() {
                     time: "value.date.slice(11, 19)",
                     platform: "value.connectType",
                     link: "value.connectLink",
-                })
+                }))
             })
         }
         if (lecturesQuery.isLoading) {
