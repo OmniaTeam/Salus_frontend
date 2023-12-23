@@ -284,11 +284,11 @@ export default function LecturesPage() {
                     }
                 </div>
             </div>
-            <div className="lectures--content">{
-                isLoading 
-                    ? <>Loading...</>
-                    : <>{ isError
-                        ? <>Error</>
+            <div className="lectures--content">
+                {isError
+                    ? <>Error</>
+                    : <>{isLoading
+                        ? <>Loading...</>
                         : <>{
                             LECTURES.value.forEach((elem, index) => (
                                 <motion.div 
@@ -312,7 +312,8 @@ export default function LecturesPage() {
                             )
                         }</>
                     }</>
-            }</div>
+                }
+            </div>
         </div>
         {isEventModalOpen && (
             <Modal onClose={() => setIsEventModalOpen(false)}>
