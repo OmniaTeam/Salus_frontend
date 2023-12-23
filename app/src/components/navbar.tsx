@@ -33,7 +33,7 @@ export default function Navbar() {
         }
         if (result.status === 302) {
             console.log(result)
-            window.location.href = 'https://salus.the-omnia.ru/'
+            // window.location.href = 'https://salus.the-omnia.ru/'
         }
     })
 
