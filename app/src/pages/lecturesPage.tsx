@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
+import { useGetLecturesByDateQuery, useGetSubjectByIdQuery } from "../services/dataService"
+import { clearLecturesData } from "../store/reducers/ILecturesSlice"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
@@ -19,7 +21,7 @@ export default function LecturesPage() {
     const USER = useAppSelector((state) => state.user)
     const LECTURES = useAppSelector((state) => state.lectures)
     const SETTINGS = useAppSelector((state) => state.settings)
-    
+
     const [isEventModalOpen, setIsEventModalOpen] = useState<boolean>(false);
     const [isSettingsModalOpen, setIsSettignsModalOpen] = useState<boolean>(false)
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState<boolean>(false)
@@ -30,6 +32,22 @@ export default function LecturesPage() {
     const [selectedLector, setSelectedLector] = useState<string>('Выберите сотрудника')
     const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
+    const [subjectId, setSubjectId] = useState<number>(0)
+
+    const useGetAllLecturesQuery = useGetLecturesByDateQuery(new Date().toISOString())
+    const useGetSubjectNameByIdQuery = useGetSubjectByIdQuery(subjectId)
+    
+
+    useEffect(() => {
+        if (useGetAllLecturesQuery.isSuccess) {
+            dispatch(clearLecturesData([]))
+            //@ts-ignore
+            useGetAllLecturesQuery.data.map((value) => {
+                setSubjectId(value.subjectId)
+                console.log(value, useGetSubjectNameByIdQuery?.data)
+            })
+        }
+    }, [useGetAllLecturesQuery])
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(

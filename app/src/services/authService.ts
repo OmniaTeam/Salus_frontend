@@ -15,6 +15,15 @@ export const AuthService = createApi({
 				},
 				method: "GET"
 			})
+		}),
+		getUserById : build.query<IUser, number>({
+			query : ( userId ) => ({
+				url : `/user/${userId}`,
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "GET"
+			})
 		})
 	})
 })

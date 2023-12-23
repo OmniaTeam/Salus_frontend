@@ -10,6 +10,7 @@ import { IMeetupSlice } from "./reducers/IMeetupSlice";
 import { IMeetupsSlice } from "./reducers/IMeetupsSlice";
 import { ILectorSlice } from "./reducers/ILectorSlice";
 import { ILectorsSlice } from "./reducers/ILectorsSlice";
+import { ISubjectSlice } from "./reducers/ISubjectSlice";
 
 const rootReducer = combineReducers({
 	[AuthService.reducerPath] : AuthService.reducer,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
 	meetup : IMeetupSlice.reducer,
 	meetups : IMeetupsSlice.reducer,
 	lector : ILectorSlice.reducer,
-	lectors : ILectorsSlice.reducer
+	lectors : ILectorsSlice.reducer,
+	subject : ISubjectSlice.reducer
 })
 
 export const setupStore = () => configureStore({
