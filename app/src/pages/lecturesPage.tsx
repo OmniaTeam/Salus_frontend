@@ -43,6 +43,9 @@ export default function LecturesPage() {
     const [selectedCategory, setSelectedCategory] = useState<string>(getCategoryName(SETTINGS.categories));
     const [selectedLector, setSelectedLector] = useState<string>('Выберите сотрудника')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
+    const [selectedTime, setSelectedTime] = useState<string>('')
+    const [lectureName, setLectureName] = useState<string>('')
+    const [lectureConfLink, setLectureConfLink] = useState<string>('')
 
     const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
     const [updateLecture, {}] = useUpdateLectureMutation()
@@ -51,13 +54,13 @@ export default function LecturesPage() {
     const updateHandler = () => {
         updateLecture({
             meet_id: LECTURE.meet_id,
-            meet_name: LECTURE.meet_name,
+            meet_name: lectureName,
             subject: EEventCategories.psychology,
-            speaker_name: LECTURE.speaker_name,
+            speaker_name: selectedLector,
             date: LECTURE.date.slice(0, 10),
-            time: LECTURE.date.slice(11, 19),
-            platform: LECTURE.platform,
-            link: LECTURE.link
+            time: selectedTime,
+            platform: selectedPlatform,
+            link: lectureConfLink
         })
     }
 
@@ -341,6 +344,7 @@ export default function LecturesPage() {
                         type="text" 
                         placeholder="Тема лекции"
                         className="modal--form__input"
+                        onChange={(e) => setLectureName(e.target.value)}
                         />
                         <DropdownMenu
                         defaultSelected={selectedCategory}
@@ -356,11 +360,18 @@ export default function LecturesPage() {
                         type="time" 
                         placeholder="Выберите время"
                         className="modal--form__input"
+                        onChange={(e) => setSelectedTime(e.target.value)}
                         />                        
                         <DropdownMenu
                         defaultSelected={selectedPlatform}
                         options={platforms}
                         onSelectOption={handlePlatformsSelect}
+                        />
+                        <input 
+                        type="text" 
+                        placeholder="Введите ссылку"
+                        className="modal--form__input"
+                        onChange={(e) => setLectureConfLink(e.target.value)}
                         />
                     </div>
                     <button 
@@ -379,6 +390,7 @@ export default function LecturesPage() {
                         type="text" 
                         placeholder="Тема лекции"
                         className="modal--form__input"
+                        onChange={(e) => setLectureName(e.target.value)}
                         />
                         <DropdownMenu
                         defaultSelected={selectedCategory}
@@ -391,14 +403,21 @@ export default function LecturesPage() {
                         onSelectOption={handleLectorsSelect}
                         />
                         <input 
-                        type="text" 
-                        placeholder="Тема лекции"
+                        type="time" 
+                        placeholder="Введите время"
                         className="modal--form__input"
+                        onChange={(e) => setLectureTime(e.target.value)}
                         />
                         <DropdownMenu
                         defaultSelected={selectedPlatform}
                         options={platforms}
                         onSelectOption={handlePlatformsSelect}
+                        />
+                        <input 
+                        type="text" 
+                        placeholder="Введите ссылку"
+                        className="modal--form__input"
+                        onChange={(e) => setLectureConfLink(e.target.value)}
                         />
                     </div>
                     <button 
