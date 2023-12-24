@@ -78,6 +78,19 @@ export const DataService = createApi({
 				method: "GET"
 			})
 		}),
+		getWorker : build.query<{
+			id : number,
+			specialization : string,
+			userId : number
+		}, any>({
+			query : () => ({
+				url : "worker",
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "GET"
+			})
+		}),
 		getWorkerMeetups : build.query<IMeetup[], number>({
 			query : ( workerId ) => ({
 				url : `/${workerId}`,
@@ -85,6 +98,25 @@ export const DataService = createApi({
 					"Content-Type": "application/json",
 				},
 				method: "GET"
+			})
+		}),
+		postSignUp : build.mutation<any, {
+			workerId: number,
+			body : {
+				name : string,
+				date : string,
+				speakerId : number,
+				meetRange : number
+			}
+		}>({
+			query : ( args ) => ({
+				url : `/worker/${args.workerId}/signup`,
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "POST",
+				redirect: "follow",
+				body: JSON.stringify(args.body)
 			})
 		}),
 		getSubjects : build.query<ISubject[], any>({
@@ -119,7 +151,8 @@ export const DataService = createApi({
 			fio : string,
 			subjectName : string,
 			rating : number,
-			userId : number
+			userId : number,
+			email : string
 		}, number>({
 			query : ( speakerId ) => ({
 				url : `speaker/${speakerId}`,
@@ -153,5 +186,7 @@ export const {
 	useGetSubjectByIdQuery,
 	useGetLectorsQuery,
 	useGetLectorQuery,
-	useGetMetricsQuery
+	useGetMetricsQuery,
+	useGetWorkerQuery,
+	usePostSignUpMutation
 } = DataService;

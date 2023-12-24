@@ -1,14 +1,40 @@
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useGetLectorQuery } from "../services/dataService";
+import { useGetLectorQuery, useGetWorkerQuery, usePostSignUpMutation } from "../services/dataService";
+import { useAppSelector } from "../hooks/redux";
+import { EUserRole } from "../models/EUserRole";
+import { useState } from "react";
+
+import Modal from "../components/modal";
 
 export default function LectorPage() {
     const lectorId = useParams();
-
+    const USER = useAppSelector((state) => state.user)
     const lectoreQuery = useGetLectorQuery(Number(lectorId.id));
 
-    return (
-        <>
+    const [isEventModalOpen, setIsEventModalOpen] = useState<boolean>(false);
+    const [recordName, setRecordName] = useState<string>('')
+    const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
+    const [selectedTime, setSelectedTime] = useState<string>('00:00')
+
+    const workerQuery = useGetWorkerQuery('')
+    const [signUp, {}] = usePostSignUpMutation()
+
+    const signUpHandler = () => {
+        workerQuery.isSuccess
+            ? signUp({
+                workerId: workerQuery.data.id,
+                body : {
+                    name : recordName,
+                    date : selectedDate.slice(0, 10) + 'T' + selectedTime,
+                    speakerId : Number(lectorId.id),
+                    meetRange : 60
+                }
+            })
+            : {}
+    }
+
+    return (<>
         <div className="lector">
             {lectoreQuery.isSuccess ? (
             <>
@@ -54,12 +80,20 @@ export default function LectorPage() {
                     </p>
                 </motion.div>
                 </div>
-                <button
-                className="lector--record"
-                style={{ backgroundColor: "#FFD4A8" }}
-                >
-                записаться
-                </button>
+                {USER.role === EUserRole.none
+                    ? <button
+                    className="lector--record"
+                    style={{ backgroundColor: "#FFD4A8" }}
+                    >
+                    войдите, чтобы записаться
+                    </button>
+                    : <button
+                    className="lector--record"
+                    style={{ backgroundColor: "#FFD4A8" }}
+                    >
+                    записаться
+                    </button>
+                }
             </>
             ) : (
             <>
@@ -67,6 +101,39 @@ export default function LectorPage() {
             </>
             )}
         </div>
-        </>
-    );
+        {isEventModalOpen && (
+            <Modal onClose={() => setIsEventModalOpen(false)}>
+                <div className="modal--container">
+                    <h3 className="modal--container__titile">Запись</h3>
+                    <div className="modal--form">
+                        <input 
+                        type="text"
+                        placeholder="Введите название" 
+                        className="modal--form__input"
+                        value={selectedDate.slice(0, 10)}
+                        onChange={(event) => setRecordName(event.target.value)}
+                        />
+                        <input 
+                        type="date" 
+                        className="modal--form__input"
+                        value={selectedDate.slice(0, 10)}
+                        onChange={(event) => setSelectedDate(event.target.value)}
+                        />
+                        <input 
+                        type="time" 
+                        className="modal--form__input"
+                        onChange={(event) => setSelectedTime(event.target.value)}
+                        />
+                        <button
+                        className="lector--record"
+                        style={{ backgroundColor: "#FFD4A8" }}
+                        onClick={signUpHandler}
+                        >
+                        записаться
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+        )}
+    </>);
 }
