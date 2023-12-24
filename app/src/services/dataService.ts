@@ -28,6 +28,17 @@ export const DataService = createApi({
 				method: "GET"
 			})
 		}),
+		updateLecture : build.mutation<any, ILecture>({
+			query : ( lecture ) => ({
+				url : ``,
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "POST",
+				redirect: "follow",
+				body: JSON.stringify(lecture)
+			})
+		}),
 		getMeetupsByDate : build.query<IMeetup[], any>({
 			query : () => ({
 				url : "/",
@@ -63,5 +74,6 @@ export const {
 	useGetMeetupsByDateQuery,
 	useGetWorkerMeetupsQuery,
 	useGetSubjectByIdQuery,
-	useGetLectureQuery
+	useGetLectureQuery,
+	useUpdateLectureMutation
 } = DataService;

@@ -1,13 +1,15 @@
 import { motion } from "framer-motion"
 import { EEventTypes } from "../models/EEventTypes"
 import { EEventCategories } from "../models/EEventCategories"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
-import { useGetLectureQuery, useGetLecturesByDateQuery } from "../services/dataService"
+import { useGetLecturesByDateQuery } from "../services/dataService"
+import { setLecturesData } from "../store/reducers/ILecturesSlice"
+import { clearLectorsData } from "../store/reducers/ILectorsSlice"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
@@ -18,6 +20,7 @@ export default function LecturesPage() {
     const dispatch = useAppDispatch()
 
     const USER = useAppSelector((state) => state.user)
+    const LECTURES = useAppSelector((state) => state.lectures)
     const SETTINGS = useAppSelector((state) => state.settings)
 
     const [isEventModalOpen, setIsEventModalOpen] = useState<boolean>(false);
@@ -25,17 +28,41 @@ export default function LecturesPage() {
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState<boolean>(false)
     const [isEditEventModalOpen, setIsEditEventModalOpen] = useState<boolean>(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
-    
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
     const [selectedCategory, setSelectedCategory] = useState<string>(getCategoryName(SETTINGS.categories));
     const [selectedLector, setSelectedLector] = useState<string>('Выберите сотрудника')
     const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
-    const [lectureId, setLectureId] = useState<number>(0)
-
     const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
-    const lectureQuery = useGetLectureQuery(lectureId)
+
+    useEffect(() => {
+        if (lecturesQuery.isSuccess) {
+            dispatch(clearLectorsData([]))
+            if (lecturesQuery.data.length !== 0) {
+                lecturesQuery.data.forEach(async (value) => {
+                    dispatch(setLecturesData(
+                    {
+                        meet_id: value.meet_id,
+                        meet_name: value.meet_name,
+                        subject: EEventCategories.psychology,
+                        speaker_name: value.speaker_name,
+                        date: value.date.slice(0, 10),
+                        time: value.date.slice(12, 19),
+                        platform: value.platform,
+                        link: value.link
+                    }))
+                    console.log(LECTURES)
+                })
+            }
+        }
+        if (lecturesQuery.isLoading) {
+            console.log("Loading...")
+        }
+        if (lecturesQuery.isError) {
+            console.log("Error")
+        }
+    }, [lecturesQuery])
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(
@@ -221,6 +248,31 @@ export default function LecturesPage() {
         }
     ]
 
+    const renderLectures = () => {
+        if (lecturesQuery.isSuccess) {
+            return lecturesQuery.data.map((elem, index) => (
+                <motion.div 
+                initial={{opacity: 0, y: 10}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 1}}
+                key={index}>
+                    <EventCard 
+                    type={EEventTypes.lecture} 
+                    title={elem.meet_name}
+                    firstLine={elem.subject} 
+                    secondLine={elem.speaker_name}
+                    thirdLine={elem.date + "-" + elem.time}
+                    buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
+                    category={elem.subject}
+                    click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                    edit={() => setIsEditEventModalOpen(true)}
+                    delete={() => setIsDeleteModalOpen(true)}
+                    />
+                </motion.div>)
+            )
+        }
+    }
+
     return (<>
         <div className="lectures">
             <div className='lectures--heading'>
@@ -287,50 +339,20 @@ export default function LecturesPage() {
                     }
                 </div>
             </div>
-            <div className="lectures--content">
-                {lecturesQuery.isSuccess
-                    ? (<>
-                        {lecturesQuery.data.map((value, index) => <motion.div 
-                        initial={{opacity: 0, y: 10}}
-                        animate={{opacity: 1, y: 0}}
-                        transition={{duration: 1}}
-                        key={index}>
-                            <EventCard 
-                            type={EEventTypes.lecture} 
-                            title={value.meet_name}
-                            firstLine={value.subject} 
-                            secondLine={value.speaker_name}
-                            thirdLine={value.date + "-" + value.time}
-                            buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                            category={value.subject}
-                            click={USER.role === EUserRole.none ? () => navigator('/auth') : () => {
-                                setLectureId(value.meet_id)
-                                setIsEventModalOpen(true)
-                            }}
-                            edit={() => setIsEditEventModalOpen(true)}
-                            delete={() => setIsDeleteModalOpen(true)}
-                            />
-                        </motion.div>)}
-                    </>)
-                    : <></>
-                }
-            </div>
+            <div className="lectures--content">{renderLectures()}</div>
         </div>
         {isEventModalOpen && (
             <Modal onClose={() => setIsEventModalOpen(false)}>
-                {lectureQuery.isSuccess
-                    ? <div className="modal--container">
-                        <h3 className="modal--container__title">{lectureQuery.data.meet_name}</h3>
-                        <div className="modal--info">
-                            <p className="modal--info__name">Категория: {lectureQuery.data.subject}</p>
-                            <p className="modal--info__path">Дата: {lectureQuery.data.date}</p>
-                            <p className="modal--info__path">Лектор: {lectureQuery.data.speaker_name}</p>
-                            <p className="modal--info__path">Платформа: {lectureQuery.data.platform}</p>
-                        </div>
-                        <Link to={lectureQuery.data.link} className="modal--link" target="_blank">подключиться к конференции</Link>
+                <div className="modal--container">
+                    <h3 className="modal--container__title">Тема лекции</h3>
+                    <div className="modal--info">
+                        <p className="modal--info__name">Категория: Психология</p>
+                        <p className="modal--info__path">Дата: 22.12.2023</p>
+                        <p className="modal--info__path">Лектор: Фамилия И.О.</p>
+                        <p className="modal--info__path">Платформа: google meet</p>
                     </div>
-                    : <></>
-                }
+                    <Link to='' className="modal--link" target="_blank">подключиться к конференции</Link>
+                </div>
             </Modal>
         )}
         {isSettingsModalOpen && (
