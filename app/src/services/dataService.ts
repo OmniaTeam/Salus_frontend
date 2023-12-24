@@ -31,7 +31,7 @@ export const DataService = createApi({
 		}),
 		updateLecture : build.mutation<any, ILecture>({
 			query : ( lecture ) => ({
-				url : ``,
+				url : `/meet/update`,
 				headers : {
 					"Content-Type": "application/json",
 				},
