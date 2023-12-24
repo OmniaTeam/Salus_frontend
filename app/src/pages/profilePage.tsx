@@ -5,6 +5,7 @@ import { evaluatePerformance } from '../devtools/colorUtils'
 import { motion } from 'framer-motion'
 import { EUserRole } from '../models/EUserRole'
 import { useAppSelector } from '../hooks/redux'
+import { useGetMetricsQuery } from '../services/dataService'
 
 import EventCard from '../components/eventCard'
 
@@ -18,6 +19,8 @@ export default function ProfilePage() {
     const navigator = useNavigate()
 
     const USER = useAppSelector((state) => state.user)
+
+    const metricsQuery = useGetMetricsQuery(USER.id)
 
     const getIcon = (userRole : EUserRole) => {
         switch (userRole) {
@@ -66,18 +69,22 @@ export default function ProfilePage() {
                                 </div>
                             </>)
                             : (<>
-                                <div className="metrics--happiness">
-                                    <p className='metrics--happiness__name'>Рейтинг довольства</p>
-                                    <p className='metrics--happiness__value' style={{backgroundColor: evaluatePerformance(87)}}>87/100</p>
-                                </div>
-                                <div className="metrics--physical">
-                                    <p className='metrics--physical__name'>Физическое здоровье</p>
-                                    <p className='metrics--physical__value' style={{backgroundColor: evaluatePerformance(73)}}>73/100</p>
-                                </div>
-                                <div className="metrics--mental">
-                                    <p className='metrics--mental__name'>Психическое здоровье</p>
-                                    <p className='metrics--mental__value' style={{backgroundColor: evaluatePerformance(53)}}>53/100</p>
-                                </div>
+                                {metricsQuery.isSuccess
+                                    ? <><div className="metrics--happiness">
+                                        <p className='metrics--happiness__name'>Рейтинг довольства</p>
+                                        <p className='metrics--happiness__value' style={{backgroundColor: evaluatePerformance(metricsQuery.data[0].value)}}>{metricsQuery.data[0].value}%</p>
+                                    </div>
+                                    <div className="metrics--physical">
+                                        <p className='metrics--physical__name'>Физическое здоровье</p>
+                                        <p className='metrics--physical__value' style={{backgroundColor: evaluatePerformance(metricsQuery.data[1].value)}}>{metricsQuery.data[1].value}%</p>
+                                    </div>
+                                    <div className="metrics--mental">
+                                        <p className='metrics--mental__name'>Психическое здоровье</p>
+                                        <p className='metrics--mental__value' style={{backgroundColor: evaluatePerformance(metricsQuery.data[2].value)}}>{metricsQuery.data[2].value}%</p>
+                                    </div>
+                                    </>
+                                    : <></>
+                                }
                             </>)
                         }
                     </motion.div>   
