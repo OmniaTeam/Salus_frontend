@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
 import { getCategoryById, getCategoryId, getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
-import { useGetLectorsQuery, useGetLecturesByDateQuery, useGetSubjectsQuery, useUpdateLectureMutation } from "../services/dataService"
+import { useAddNewLectureMutation, useGetLectorsQuery, useGetLecturesByDateQuery, useGetSubjectsQuery, useUpdateLectureMutation } from "../services/dataService"
 import { setLecturesData } from "../store/reducers/ILecturesSlice"
 import { clearLectorsData } from "../store/reducers/ILectorsSlice"
 import { 
@@ -51,6 +51,7 @@ export default function LecturesPage() {
     const [updateLecture, {}] = useUpdateLectureMutation()
     const subjectsQuery = useGetSubjectsQuery('')
     const lectorsQuery = useGetLectorsQuery('')
+    const [addNewLecture, {}] = useAddNewLectureMutation()
 
     const updateHandler = () => {
         updateLecture({
@@ -59,6 +60,18 @@ export default function LecturesPage() {
             subject: getCategoryId(EEventCategories.psychology),
             speaker_name: LECTURE.speaker_name,
             date: selectedDate.slice(0, 10) + 'T' + selectedTime,
+            platform: selectedPlatform,
+            link: lectureConfLink
+        })
+    }
+
+    const addNewLectureHandler = () => {
+        addNewLecture({
+            meet_id: -1,
+            meet_name: lectureName,
+            subject: getCategoryId(EEventCategories.psychology),
+            speaker_name: selectedLector,
+            date: selectedDate + "T" + selectedTime,
             platform: selectedPlatform,
             link: lectureConfLink
         })
@@ -362,6 +375,7 @@ export default function LecturesPage() {
                     <button 
                     type="button"
                     className="modal--button"
+                    onClick={addNewLectureHandler}
                     >Добавить</button>
                 </div>
             </Modal>

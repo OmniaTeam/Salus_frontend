@@ -40,6 +40,26 @@ export const DataService = createApi({
 				body: JSON.stringify(lecture)
 			})
 		}),
+		addNewLecture : build.mutation<any, ILecture>({
+			query : ( lecture ) => ({
+				url : `/admin/meet/create`,
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "POST",
+				redirect: "follow",
+				body: JSON.stringify(lecture)
+			})
+		}),
+		deleteLecture : build.query<any, number>({
+			query : ( meetId ) => ({
+				url : `/meet/${meetId}/delete`,
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "GET"
+			})
+		}),
 		getMeetupsByDate : build.query<IMeetup[], any>({
 			query : () => ({
 				url : "/",
@@ -92,6 +112,8 @@ export const {
 	useGetLectureQuery,
 	useGetLecturesByDateQuery,
 	useUpdateLectureMutation,
+	useAddNewLectureMutation,
+	useDeleteLectureQuery,
 	useGetMeetupsByDateQuery,
 	useGetWorkerMeetupsQuery,
 	useGetSubjectsQuery,
