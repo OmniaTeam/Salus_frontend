@@ -57,7 +57,7 @@ export default function LecturesPage() {
             meet_id: LECTURE.meet_id,
             meet_name: lectureName,
             subject: getCategoryId(EEventCategories.psychology),
-            speaker_name: selectedLector,
+            speaker_name: LECTURE.speaker_name,
             date: selectedDate.slice(0, 10) + selectedTime,
             platform: selectedPlatform,
             link: lectureConfLink
@@ -132,7 +132,7 @@ export default function LecturesPage() {
 
     const handleLectorsSelect = (lector: string) => {
 		const selectedLector = lectors.find(
-			(option) => option.value === lector
+			(option) => option.value === lector 
 		);
         if (selectedLector) {
 			setSelectedLector(lector);
@@ -335,11 +335,6 @@ export default function LecturesPage() {
                         defaultSelected={selectedCategory}
                         options={categories}
                         onSelectOption={handleCategoriesSelect}
-                        />
-                        <DropdownMenu
-                        defaultSelected={selectedLector}
-                        options={lectors}
-                        onSelectOption={handleLectorsSelect}
                         />
                         <input 
                         type="time" 
