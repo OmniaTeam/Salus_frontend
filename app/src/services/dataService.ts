@@ -170,6 +170,15 @@ export const DataService = createApi({
 				},
 				method: "GET"
 			})
+		}),
+		getUserMeets : build.query<any, number>({
+			query : ( userId ) => ({
+				url : `/worker/${userId}/allmeet`,
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "GET"
+			})
 		})
 	})
 })

@@ -1,13 +1,13 @@
-// import { useNavigate } from 'react-router-dom'
-// import { EEventTypes } from '../models/EEventTypes'
-// import { EEventCategories } from '../models/EEventCategories'
+import { useNavigate } from 'react-router-dom'
+import { EEventTypes } from '../models/EEventTypes'
+import { EEventCategories } from '../models/EEventCategories'
 import { evaluatePerformance } from '../devtools/colorUtils'
 import { motion } from 'framer-motion'
 import { EUserRole } from '../models/EUserRole'
 import { useAppSelector } from '../hooks/redux'
 import { useGetMetricsQuery } from '../services/dataService'
 
-// import EventCard from '../components/eventCard'
+import EventCard from '../components/eventCard'
 
 import userLogo from '../assets/userLogo.png'
 import specIcon from '../assets/specLogo.png'
@@ -16,11 +16,11 @@ import exitIcon from '../assets/exit.svg'
 
 
 export default function ProfilePage() {
-    // const navigator = useNavigate()
+    const navigator = useNavigate()
 
     const USER = useAppSelector((state) => state.user)
 
-    const metricsQuery = useGetMetricsQuery(1)
+    const metricsQuery = useGetMetricsQuery(USER.id)
 
     const getIcon = (userRole : EUserRole) => {
         switch (userRole) {
@@ -90,7 +90,7 @@ export default function ProfilePage() {
                     </motion.div>   
                 </>)
             }
-            {/* {USER.role === EUserRole.moderator
+            {USER.role === EUserRole.moderator
                 ? (<></>)
                 : (<>
                     <div className='profile--content'>
@@ -114,7 +114,7 @@ export default function ProfilePage() {
                         />
                     </div>
                 </>)
-            } */}
+            }
         </div>
     </>)
 }
