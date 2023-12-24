@@ -336,6 +336,11 @@ export default function LecturesPage() {
                         options={categories}
                         onSelectOption={handleCategoriesSelect}
                         />
+                        <DropdownMenu
+                        defaultSelected={selectedLector}
+                        options={lectors}
+                        onSelectOption={handleLectorsSelect}
+                        />
                         <input 
                         type="time" 
                         placeholder="Выберите время"
@@ -376,11 +381,6 @@ export default function LecturesPage() {
                         defaultSelected={selectedCategory}
                         options={categories}
                         onSelectOption={handleCategoriesSelect}
-                        />
-                        <DropdownMenu
-                        defaultSelected={selectedLector}
-                        options={lectors}
-                        onSelectOption={handleLectorsSelect}
                         />
                         <input 
                         type="time" 
