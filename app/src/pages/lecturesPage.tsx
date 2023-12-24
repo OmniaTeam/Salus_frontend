@@ -42,7 +42,6 @@ export default function LecturesPage() {
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
     const [selectedCategory, setSelectedCategory] = useState<string>(getCategoryName(SETTINGS.categories));
     const [selectedLector, setSelectedLector] = useState<string>('Выберите сотрудника')
-    const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
     const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
@@ -138,15 +137,6 @@ export default function LecturesPage() {
 		}
 	};
 
-    const handleTimesSelect = (time: string) => {
-		const selectedTimes = times.find(
-			(option) => option.value === time
-		);
-        if (selectedTimes) {
-			setSelectedTime(time);
-		}
-	};
-
     const handlePlatformsSelect = (platform: string) => {
 		const selectedPlatforms = platforms.find(
 			(option) => option.value === platform
@@ -177,49 +167,6 @@ export default function LecturesPage() {
             value: "Васипусин Монарх Евгеньевич",
             label: "Васипусин Монарх Евгеньевич",
             id: 2
-        }
-    ]
-
-    const times = [
-        {
-            value: "10:00",
-            label: "10:00",
-            id: 0
-        },
-        {
-            value: "11:00",
-            label: "11:00",
-            id: 1
-        },
-        {
-            value: "12:00",
-            label: "12:00",
-            id: 2
-        },
-        {
-            value: "13:00",
-            label: "13:00",
-            id: 3
-        },
-        {
-            value: "14:00",
-            label: "14:00",
-            id: 4
-        },
-        {
-            value: "15:00",
-            label: "15:00",
-            id: 5
-        },
-        {
-            value: "16:00",
-            label: "16:00",
-            id: 6
-        },
-        {
-            value: "17:00",
-            label: "17:00",
-            id: 7
         }
     ]
 
@@ -405,11 +352,11 @@ export default function LecturesPage() {
                         options={lectors}
                         onSelectOption={handleLectorsSelect}
                         />
-                        <DropdownMenu
-                        defaultSelected={selectedTime}
-                        options={times}
-                        onSelectOption={handleTimesSelect}
-                        />
+                        <input 
+                        type="time" 
+                        placeholder="Выберите время"
+                        className="modal--form__input"
+                        />                        
                         <DropdownMenu
                         defaultSelected={selectedPlatform}
                         options={platforms}
@@ -443,10 +390,10 @@ export default function LecturesPage() {
                         options={lectors}
                         onSelectOption={handleLectorsSelect}
                         />
-                        <DropdownMenu
-                        defaultSelected={selectedTime}
-                        options={times}
-                        onSelectOption={handleTimesSelect}
+                        <input 
+                        type="text" 
+                        placeholder="Тема лекции"
+                        className="modal--form__input"
                         />
                         <DropdownMenu
                         defaultSelected={selectedPlatform}
