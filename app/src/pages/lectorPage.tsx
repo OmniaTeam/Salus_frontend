@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useAppSelector } from "../hooks/redux";
 import { useGetLectorQuery } from "../services/dataService";
 
 export default function LectorPage() {
