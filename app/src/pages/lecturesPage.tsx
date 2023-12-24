@@ -30,7 +30,6 @@ export default function LecturesPage() {
 
     const USER = useAppSelector((state) => state.user)
     const LECTURE = useAppSelector((state) => state.lecture)
-    const LECTURES = useAppSelector((state) => state.lectures)
     const SETTINGS = useAppSelector((state) => state.settings)
 
     const [isEventModalOpen, setIsEventModalOpen] = useState<boolean>(false);
