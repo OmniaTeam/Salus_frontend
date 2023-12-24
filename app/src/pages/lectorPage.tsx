@@ -63,7 +63,7 @@ export default function LectorPage() {
                     className="metrics--spec"
                 >
                     <p className="metrics--spec__name">Почта</p>
-                    <p className="metrics--spec__value">{"speakerEmail"}</p>
+                    <p className="metrics--spec__value">{lectoreQuery.data.email}</p>
                 </motion.div>
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
