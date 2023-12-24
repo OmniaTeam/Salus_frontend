@@ -12,8 +12,16 @@ export const DataService = createApi({
 	endpoints : (build) => ({
 		getLecturesByDate : build.query<ILecture[], string>({
 			query : (data) => ({
-				// 2023-12-23
 				url : `/meet/lecture/all?date=${data.slice(0, 10)}`,
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "GET"
+			})
+		}),
+		getLecture : build.query<ILecture, number>({
+			query : ( meetId ) => ({
+				url : `/meet/${meetId}`,
 				headers : {
 					"Content-Type": "application/json",
 				},
@@ -54,5 +62,6 @@ export const {
 	useGetLecturesByDateQuery,
 	useGetMeetupsByDateQuery,
 	useGetWorkerMeetupsQuery,
-	useGetSubjectByIdQuery
+	useGetSubjectByIdQuery,
+	useGetLectureQuery
 } = DataService;

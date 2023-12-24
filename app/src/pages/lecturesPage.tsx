@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
-import { useGetLecturesByDateQuery } from "../services/dataService"
+import { useGetLectureQuery, useGetLecturesByDateQuery } from "../services/dataService"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
@@ -25,13 +25,17 @@ export default function LecturesPage() {
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState<boolean>(false)
     const [isEditEventModalOpen, setIsEditEventModalOpen] = useState<boolean>(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
+    
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
     const [selectedCategory, setSelectedCategory] = useState<string>(getCategoryName(SETTINGS.categories));
     const [selectedLector, setSelectedLector] = useState<string>('Выберите сотрудника')
     const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
+    const [lectureId, setLectureId] = useState<number>(0)
+
     const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
+    const lectureQuery = useGetLectureQuery(lectureId)
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(
@@ -299,7 +303,10 @@ export default function LecturesPage() {
                             thirdLine={value.date + "-" + value.time}
                             buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
                             category={value.subject}
-                            click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                            click={USER.role === EUserRole.none ? () => navigator('/auth') : () => {
+                                setLectureId(value.meet_id)
+                                setIsEventModalOpen(true)
+                            }}
                             edit={() => setIsEditEventModalOpen(true)}
                             delete={() => setIsDeleteModalOpen(true)}
                             />
@@ -311,16 +318,19 @@ export default function LecturesPage() {
         </div>
         {isEventModalOpen && (
             <Modal onClose={() => setIsEventModalOpen(false)}>
-                <div className="modal--container">
-                    <h3 className="modal--container__title">Тема лекции</h3>
-                    <div className="modal--info">
-                        <p className="modal--info__name">Категория: Психология</p>
-                        <p className="modal--info__path">Дата: 22.12.2023</p>
-                        <p className="modal--info__path">Лектор: Фамилия И.О.</p>
-                        <p className="modal--info__path">Платформа: google meet</p>
+                {lectureQuery.isSuccess
+                    ? <div className="modal--container">
+                        <h3 className="modal--container__title">{lectureQuery.data.meet_name}</h3>
+                        <div className="modal--info">
+                            <p className="modal--info__name">Категория: {lectureQuery.data.subject}</p>
+                            <p className="modal--info__path">Дата: {lectureQuery.data.date}</p>
+                            <p className="modal--info__path">Лектор: {lectureQuery.data.speaker_name}</p>
+                            <p className="modal--info__path">Платформа: {lectureQuery.data.platform}</p>
+                        </div>
+                        <Link to={lectureQuery.data.link} className="modal--link" target="_blank">подключиться к конференции</Link>
                     </div>
-                    <Link to='' className="modal--link" target="_blank">подключиться к конференции</Link>
-                </div>
+                    : <></>
+                }
             </Modal>
         )}
         {isSettingsModalOpen && (
