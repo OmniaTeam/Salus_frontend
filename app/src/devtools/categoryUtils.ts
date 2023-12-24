@@ -14,24 +14,24 @@ export const getCategoryName = (category: EEventCategories) => {
 
 export const getCategoryId = (category: EEventCategories) => {
     switch (category) {
-        case EEventCategories.psychology: return 0
-        case EEventCategories.finance: return 1
-        case EEventCategories.health: return 2
-        case EEventCategories.feed: return 3
-        case EEventCategories.meditation: return 4
-        case EEventCategories.all: return 5
+        case EEventCategories.psychology: return 1
+        case EEventCategories.finance: return 2
+        case EEventCategories.health: return 3
+        case EEventCategories.feed: return 4
+        case EEventCategories.meditation: return 5
+        case EEventCategories.all: return 6
         default: return 0
     }
 }
 
 export const getCategoryById = (id: number) => {
     switch (id) {
-        case 0: return EEventCategories.psychology
-        case 1: return EEventCategories.finance
-        case 2: return EEventCategories.health
-        case 3: return EEventCategories.feed
-        case 4: return EEventCategories.meditation
-        case 5: return EEventCategories.all
+        case 1: return EEventCategories.psychology
+        case 2: return EEventCategories.finance
+        case 3: return EEventCategories.health
+        case 4: return EEventCategories.feed
+        case 5: return EEventCategories.meditation
+        case 6: return EEventCategories.all
         default: EEventCategories.all
     }
 }
