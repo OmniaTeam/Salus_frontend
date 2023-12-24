@@ -4,8 +4,8 @@ import { ILector } from "../../models/ILector";
 
 const initialState : ILector = {
     id: 0,
-    lectorName: "nothing",
-    lectorCategory: EEventCategories.all,
+    fio: "nothing",
+    subjectName: EEventCategories.all,
     rating: 0
 }
 
@@ -16,11 +16,11 @@ export const ILectorSlice = createSlice({
         setLectorId : (state, action : PayloadAction<number>) => {
             state.id = action.payload
         },
-        setLectorName : (state, action : PayloadAction<string>) => {
-            state.lectorName = action.payload
+        setLectorFio : (state, action : PayloadAction<string>) => {
+            state.fio = action.payload
         },
-        setLectorCategory : (state, action : PayloadAction<EEventCategories>) => {
-            state.lectorCategory = action.payload
+        setLectorSubjectName : (state, action : PayloadAction<EEventCategories>) => {
+            state.subjectName = action.payload
         },
         setLectorRating : (state, action : PayloadAction<number>) => {
             state.rating = action.payload
@@ -30,7 +30,7 @@ export const ILectorSlice = createSlice({
 
 export const {
     setLectorId,
-    setLectorName,
-    setLectorCategory,
+    setLectorFio,
+    setLectorSubjectName,
     setLectorRating
 } = ILectorSlice.actions

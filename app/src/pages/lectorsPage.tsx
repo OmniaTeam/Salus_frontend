@@ -86,11 +86,11 @@ export default function LectorsPage() {
                         {LECTORS.value.map((value, index) => (<div key={index}>
                             <EventCard 
                             type={EEventTypes.meetup} 
-                            title={value.lectorName}
-                            firstLine={`Специальность: ${value.lectorCategory}`} 
+                            title={value.fio}
+                            firstLine={`Специальность: ${value.subjectName}`} 
                             secondLine={String(value.rating)}
                             buttonText="подробнее"
-                            category={value.lectorCategory}
+                            category={value.subjectName}
                             click={() => navigator(`/application/lector/${value.id}`)}
                             />
                         </div>))}

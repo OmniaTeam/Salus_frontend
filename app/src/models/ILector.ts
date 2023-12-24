@@ -2,8 +2,8 @@ import { EEventCategories } from "./EEventCategories";
 
 export interface ILector {
     id : number,
-    lectorName : string,
-    lectorCategory : EEventCategories,
+    fio : string,
+    subjectName : EEventCategories,
     rating : number
 }
 

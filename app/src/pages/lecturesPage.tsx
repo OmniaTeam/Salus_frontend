@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
-import { useGetLecturesByDateQuery, useGetSubjectsQuery, useUpdateLectureMutation } from "../services/dataService"
+import { useGetLectorsQuery, useGetLecturesByDateQuery, useGetSubjectsQuery, useUpdateLectureMutation } from "../services/dataService"
 import { setLecturesData } from "../store/reducers/ILecturesSlice"
 import { clearLectorsData } from "../store/reducers/ILectorsSlice"
 import { 
@@ -39,6 +39,7 @@ export default function LecturesPage() {
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState<boolean>(false)
     const [isEditEventModalOpen, setIsEditEventModalOpen] = useState<boolean>(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
+    
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
     const [selectedCategory, setSelectedCategory] = useState<string>(getCategoryName(SETTINGS.categories));
     const [selectedLector, setSelectedLector] = useState<string>('Выберите сотрудника')
@@ -50,6 +51,7 @@ export default function LecturesPage() {
     const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
     const [updateLecture, {}] = useUpdateLectureMutation()
     const subjectsQuery = useGetSubjectsQuery('')
+    const lectorsQuery = useGetLectorsQuery('')
 
     const updateHandler = () => {
         updateLecture({
@@ -57,7 +59,7 @@ export default function LecturesPage() {
             meet_name: lectureName,
             subject: EEventCategories.psychology,
             speaker_name: selectedLector,
-            date: LECTURE.date.slice(0, 10),
+            date: selectedDate.slice(0, 10),
             time: selectedTime,
             platform: selectedPlatform,
             link: lectureConfLink
@@ -155,23 +157,11 @@ export default function LecturesPage() {
         id : value.id
     })) || []
 
-    const lectors = [
-        {
-            value: "Иванов Иван Иванович",
-            label: "Иванов Иван Иванович",
-            id: 0
-        },
-        {
-            value: "Бублик Василий Суренович",
-            label: "Бублик Василий Суренович",
-            id: 1
-        },
-        {
-            value: "Васипусин Монарх Евгеньевич",
-            label: "Васипусин Монарх Евгеньевич",
-            id: 2
-        }
-    ]
+    const lectors = lectorsQuery.data?.map((value) => ({
+        value : value.fio,
+        label : value.fio,
+        id : value.id
+    })) || []
 
     const platforms = [
         {

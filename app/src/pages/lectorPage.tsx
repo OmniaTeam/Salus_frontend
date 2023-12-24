@@ -14,7 +14,7 @@ export default function LectorPage() {
             animate={{opacity: 1}}
             transition={{duration: 1}}
             className="lector--title"
-            >{LECTOR.lectorName} {lectorId.id}</motion.h1>
+            >{LECTOR.fio} {lectorId.id}</motion.h1>
             <div className="metrics">
                 <motion.div 
                 initial={{opacity: 0, y: 10}}
@@ -22,7 +22,7 @@ export default function LectorPage() {
                 transition={{duration: 1}}
                 className="metrics--spec">
                     <p className="metrics--spec__name">Специальность</p>
-                    <p className="metrics--spec__value">{LECTOR.lectorCategory}</p>
+                    <p className="metrics--spec__value">{LECTOR.subjectName}</p>
                 </motion.div>
                 <motion.div 
                 initial={{opacity: 0, y: 10}}

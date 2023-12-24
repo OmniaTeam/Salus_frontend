@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IMeetup } from "../models/IMeetup";
 import { ISubject } from "../models/ISubject";
 import { ILecture } from "../models/ILecture";
+import { ILector } from "../models/ILector";
 
 export const DataService = createApi({
 	reducerPath : "data-service",
@@ -74,16 +75,26 @@ export const DataService = createApi({
 				},
 				method: "GET"
 			})
+		}),
+		getLectors : build.query<ILector[], any>({
+			query : () => ({
+				url : '/speaker/all',
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "GET"
+			})
 		})
 	})
 })
 
 export const {
+	useGetLectureQuery,
 	useGetLecturesByDateQuery,
+	useUpdateLectureMutation,
 	useGetMeetupsByDateQuery,
 	useGetWorkerMeetupsQuery,
 	useGetSubjectsQuery,
 	useGetSubjectByIdQuery,
-	useGetLectureQuery,
-	useUpdateLectureMutation
+	useGetLectorsQuery
 } = DataService;
