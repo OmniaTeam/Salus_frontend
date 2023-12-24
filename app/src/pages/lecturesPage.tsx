@@ -82,17 +82,21 @@ export default function LecturesPage() {
             dispatch(clearLectorsData([]))
             if (lecturesQuery.data.length !== 0) {
                 lecturesQuery.data.forEach(async (value) => {
-                    dispatch(setLecturesData(
-                    {
-                        meet_id: value.meet_id,
-                        meet_name: String(value.meet_name),
-                        subject: getCategoryId(EEventCategories.psychology),
-                        speaker_name: String(value.speaker_name),
-                        date: String(value.date.slice(0, 19)),
-                        platform: String(value.platform),
-                        link: String(value.link)
-                    }))
-                    console.log(LECTURES)
+                    if (value !== null) {
+                        dispatch(setLecturesData(
+                            {
+                                meet_id: value.meet_id,
+                                meet_name: String(value.meet_name),
+                                subject: getCategoryId(EEventCategories.psychology),
+                                speaker_name: String(value.speaker_name),
+                                date: String(value.date.slice(0, 19)),
+                                platform: String(value.platform),
+                                link: String(value.link)
+                            })
+                        )
+                    } else {
+                        console.log("Govno", value)
+                    }
                 })
             }
         }
