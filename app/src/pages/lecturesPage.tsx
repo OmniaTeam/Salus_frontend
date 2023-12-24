@@ -286,7 +286,7 @@ export default function LecturesPage() {
             </div>
             <div className="lectures--content">
                 { isError === false
-                    ? <>({LECTURES.value.map((value, index) => (<>
+                    ? <>{LECTURES.value.map((value, index) => (<>
                         <motion.div 
                         initial={{opacity: 0, y: 10}}
                         animate={{opacity: 1, y: 0}}
@@ -305,7 +305,7 @@ export default function LecturesPage() {
                             delete={() => setIsDeleteModalOpen(true)}
                             />
                         </motion.div>
-                    </>))})</>
+                    </>))}</>
                     : <></>
                 }
             </div>
