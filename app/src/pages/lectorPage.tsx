@@ -38,6 +38,7 @@ export default function LectorPage() {
             const fio = await getSpeakerFio(Number(lectorId.id)).then((res) => res.fio);
             const email = await getSpeakerFio(Number(lectorId.id)).then((res) => res.username);
             setSpeakerFio(fio);
+            setSpeakerRole(role);
             setSpeakerEmail(email)
         };
 
