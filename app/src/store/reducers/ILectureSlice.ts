@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EEventCategories } from "../../models/EEventCategories";
 import { ILecture } from "../../models/ILecture";
 
 const initialState : ILecture = {
     meet_id: 0,
     meet_name: "nothing",
-    subject: EEventCategories.all,
+    subject: 0,
     speaker_name: "nothing",
     date: "00-00-0000",
     platform: "nothing",
@@ -22,7 +21,7 @@ export const ILectureSlice = createSlice({
         setLectureTopic : (state, action : PayloadAction<string>) => {
             state.meet_name = action.payload
         },
-        setLectureCategory : (state, action : PayloadAction<EEventCategories>) => {
+        setLectureCategory : (state, action : PayloadAction<number>) => {
             state.subject = action.payload
         },
         setLectorName : (state, action : PayloadAction<string>) => {

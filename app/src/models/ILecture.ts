@@ -1,9 +1,7 @@
-import { EEventCategories } from "./EEventCategories";
-
 export interface ILecture {
     meet_id : number,
     meet_name : string,
-    subject : EEventCategories,
+    subject : number,
     speaker_name : string,
     date : string,
     platform : string,

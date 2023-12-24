@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
-import { getCategoryName } from "../devtools/categoryUtils"
+import { getCategoryById, getCategoryId, getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
 import { useGetLectorsQuery, useGetLecturesByDateQuery, useGetSubjectsQuery, useUpdateLectureMutation } from "../services/dataService"
 import { setLecturesData } from "../store/reducers/ILecturesSlice"
@@ -56,7 +56,7 @@ export default function LecturesPage() {
         updateLecture({
             meet_id: LECTURE.meet_id,
             meet_name: lectureName,
-            subject: EEventCategories.psychology,
+            subject: getCategoryId(EEventCategories.psychology),
             speaker_name: selectedLector,
             date: selectedDate.slice(0, 10) + selectedTime,
             platform: selectedPlatform,
@@ -73,7 +73,7 @@ export default function LecturesPage() {
                     {
                         meet_id: value.meet_id,
                         meet_name: value.meet_name,
-                        subject: EEventCategories.psychology,
+                        subject: getCategoryId(EEventCategories.psychology),
                         speaker_name: value.speaker_name,
                         date: value.date.slice(0, 19),
                         platform: value.platform,
@@ -194,15 +194,15 @@ export default function LecturesPage() {
                     <EventCard 
                     type={EEventTypes.lecture} 
                     title={elem.meet_name}
-                    firstLine={elem.subject} 
+                    firstLine={getCategoryById(elem.subject) || EEventCategories.psychology} 
                     secondLine={elem.speaker_name}
                     thirdLine={elem.date}
                     buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                    category={elem.subject}
+                    category={getCategoryById(elem.subject) || EEventCategories.psychology}
                     click={USER.role === EUserRole.none ? () => navigator('/auth') : () => {
                         dispatch(setLectureId(elem.meet_id))
                         dispatch(setLectureTopic(elem.meet_name))
-                        dispatch(setLectureCategory(EEventCategories.psychology))
+                        dispatch(setLectureCategory(elem.subject))
                         dispatch(setLectorName(elem.speaker_name))
                         dispatch(setLectureDate(elem.date.slice(0, 19)))
                         dispatch(setLecturePlatform(elem.platform))
@@ -212,7 +212,7 @@ export default function LecturesPage() {
                     edit={() => {
                         dispatch(setLectureId(elem.meet_id))
                         dispatch(setLectureTopic(elem.meet_name))
-                        dispatch(setLectureCategory(EEventCategories.psychology))
+                        dispatch(setLectureCategory(elem.subject))
                         dispatch(setLectorName(elem.speaker_name))
                         dispatch(setLectureDate(elem.date.slice(0, 19)))
                         dispatch(setLecturePlatform(elem.platform))
