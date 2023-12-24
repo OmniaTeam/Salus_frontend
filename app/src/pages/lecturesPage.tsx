@@ -32,7 +32,7 @@ export default function LecturesPage() {
     const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
-    const { isLoading, isError } = useGetLecturesByDateQuery(selectedDate)
+    const { isError } = useGetLecturesByDateQuery(selectedDate)
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(
@@ -285,33 +285,28 @@ export default function LecturesPage() {
                 </div>
             </div>
             <div className="lectures--content">
-                {isError
-                    ? <>Error</>
-                    : <>{isLoading
-                        ? <>Loading...</>
-                        : <>{
-                            LECTURES.value.forEach((elem, index) => (
-                                <motion.div 
-                                initial={{opacity: 0, y: 10}}
-                                animate={{opacity: 1, y: 0}}
-                                transition={{duration: 1}}
-                                key={index}>
-                                    <EventCard 
-                                    type={EEventTypes.lecture} 
-                                    title={elem.meet_name}
-                                    firstLine={elem.subject} 
-                                    secondLine={elem.speaker_name}
-                                    thirdLine={elem.date + "-" + elem.time}
-                                    buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
-                                    category={elem.subject}
-                                    click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
-                                    edit={() => setIsEditEventModalOpen(true)}
-                                    delete={() => setIsDeleteModalOpen(true)}
-                                    />
-                                </motion.div>)
-                            )
-                        }</>
-                    }</>
+                { isError === false
+                    ? <>({LECTURES.value.map((value, index) => (<>
+                        <motion.div 
+                        initial={{opacity: 0, y: 10}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{duration: 1}}
+                        key={index}>
+                            <EventCard 
+                            type={EEventTypes.lecture} 
+                            title={value.meet_name}
+                            firstLine={value.subject} 
+                            secondLine={value.speaker_name}
+                            thirdLine={value.date + "-" + value.time}
+                            buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
+                            category={value.subject}
+                            click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                            edit={() => setIsEditEventModalOpen(true)}
+                            delete={() => setIsDeleteModalOpen(true)}
+                            />
+                        </motion.div>
+                    </>))})</>
+                    : <></>
                 }
             </div>
         </div>
