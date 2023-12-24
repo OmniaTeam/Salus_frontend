@@ -43,9 +43,9 @@ export default function LecturesPage() {
     const [selectedCategory, setSelectedCategory] = useState<string>(getCategoryName(SETTINGS.categories));
     const [selectedLector, setSelectedLector] = useState<string>('Выберите сотрудника')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
-    const [selectedTime, setSelectedTime] = useState<string>('')
-    const [lectureName, setLectureName] = useState<string>('')
-    const [lectureConfLink, setLectureConfLink] = useState<string>('')
+    const [selectedTime, setSelectedTime] = useState<string>('00:00')
+    const [lectureName, setLectureName] = useState<string>('default')
+    const [lectureConfLink, setLectureConfLink] = useState<string>('default')
 
     const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
     const [updateLecture, {}] = useUpdateLectureMutation()
