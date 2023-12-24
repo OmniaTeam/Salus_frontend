@@ -114,6 +114,15 @@ export const DataService = createApi({
 				method: "GET"
 			})
 		}),
+		getLector : build.query<ILector, number>({
+			query : ( speakerId ) => ({
+				url : `speaker/${speakerId}`,
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "GET"
+			})
+		}),
 		getMetrics : build.query<{name : string, value : number}[], number>({
 			query : ( workerId ) => ({
 				url : `/metrics/${workerId}`,
@@ -137,5 +146,6 @@ export const {
 	useGetSubjectsQuery,
 	useGetSubjectByIdQuery,
 	useGetLectorsQuery,
+	useGetLectorQuery,
 	useGetMetricsQuery
 } = DataService;
