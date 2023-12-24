@@ -10,6 +10,16 @@ import { setCategory } from "../store/reducers/ISettingsSlice"
 import { useGetLecturesByDateQuery } from "../services/dataService"
 import { setLecturesData } from "../store/reducers/ILecturesSlice"
 import { clearLectorsData } from "../store/reducers/ILectorsSlice"
+import { 
+    setLectureId, 
+    setLectureTopic, 
+    setLectureCategory, 
+    setLectorName, 
+    setLectureTime, 
+    setLecturePlatform, 
+    setLectureLink, 
+    setLectureDate 
+} from "../store/reducers/ILectureSlice"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
@@ -20,6 +30,7 @@ export default function LecturesPage() {
     const dispatch = useAppDispatch()
 
     const USER = useAppSelector((state) => state.user)
+    const LECTURE = useAppSelector((state) => state.lecture)
     const LECTURES = useAppSelector((state) => state.lectures)
     const SETTINGS = useAppSelector((state) => state.settings)
 
@@ -48,7 +59,7 @@ export default function LecturesPage() {
                         subject: EEventCategories.psychology,
                         speaker_name: value.speaker_name,
                         date: value.date.slice(0, 10),
-                        time: value.date.slice(12, 19),
+                        time: value.date.slice(11, 19),
                         platform: value.platform,
                         link: value.link
                     }))
@@ -264,7 +275,17 @@ export default function LecturesPage() {
                     thirdLine={elem.date + "-" + elem.time}
                     buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
                     category={elem.subject}
-                    click={USER.role === EUserRole.none ? () => navigator('/auth') : () => setIsEventModalOpen(true)}
+                    click={USER.role === EUserRole.none ? () => navigator('/auth') : () => {
+                        dispatch(setLectureId(elem.meet_id))
+                        dispatch(setLectureTopic(elem.meet_name))
+                        dispatch(setLectureCategory(EEventCategories.psychology))
+                        dispatch(setLectorName(elem.speaker_name))
+                        dispatch(setLectureDate(elem.date.slice(0, 10)))
+                        dispatch(setLectureTime(elem.date.slice(11, 19)))
+                        dispatch(setLecturePlatform(elem.platform))
+                        dispatch(setLectureLink(elem.link))
+                        setIsEventModalOpen(true)
+                    }}
                     edit={() => setIsEditEventModalOpen(true)}
                     delete={() => setIsDeleteModalOpen(true)}
                     />
@@ -344,14 +365,14 @@ export default function LecturesPage() {
         {isEventModalOpen && (
             <Modal onClose={() => setIsEventModalOpen(false)}>
                 <div className="modal--container">
-                    <h3 className="modal--container__title">Тема лекции</h3>
+                    <h3 className="modal--container__title">{LECTURE.meet_name}</h3>
                     <div className="modal--info">
-                        <p className="modal--info__name">Категория: Психология</p>
-                        <p className="modal--info__path">Дата: 22.12.2023</p>
-                        <p className="modal--info__path">Лектор: Фамилия И.О.</p>
-                        <p className="modal--info__path">Платформа: google meet</p>
+                        <p className="modal--info__name">Категория: {LECTURE.subject}</p>
+                        <p className="modal--info__path">Дата: {LECTURE.date}</p>
+                        <p className="modal--info__path">Лектор: {LECTURE.speaker_name}</p>
+                        <p className="modal--info__path">Платформа: {LECTURE.platform}</p>
                     </div>
-                    <Link to='' className="modal--link" target="_blank">подключиться к конференции</Link>
+                    <Link to={LECTURE.link} className="modal--link" target="_blank">подключиться к конференции</Link>
                 </div>
             </Modal>
         )}
