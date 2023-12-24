@@ -60,7 +60,16 @@ export const DataService = createApi({
 				method: "GET"
 			})
 		}),
-		getMeetupsByDate : build.query<IMeetup[], any>({
+		getMeetupsByDate : build.query<{
+			meet_id: number,
+			meet_name: string,
+			meet_desc: string,
+			speaker_name: string,
+			subject: string,
+			date: string,
+			platform: string,
+			link: string
+		}[], any>({
 			query : () => ({
 				url : "/",
 				headers : {

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { EUserRole } from "../models/EUserRole"
 import { useAppSelector } from "../hooks/redux"
+import { useGetLectorsQuery, useGetMeetupsByDateQuery } from "../services/dataService"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
@@ -13,11 +14,12 @@ export default function LectorsPage() {
     const navigator = useNavigate()
 
     const USER = useAppSelector((state) => state.user)
-    const LECTORS = useAppSelector((state) => state.lectors)
-    const MEETUPS = useAppSelector((state) => state.meetups)
 
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
     const [isSettingsModalOpen, setIsSettignsModalOpen] = useState<boolean>(false)
+
+    const lectorsQuery = useGetLectorsQuery('')
+    const meetupsQuery = useGetMeetupsByDateQuery(selectedDate.slice(0, 10))
 
     return (<>
         <div className="lectors">
@@ -70,30 +72,38 @@ export default function LectorsPage() {
             <div className="lectors--content">
                 {USER.role === EUserRole.speaker
                     ? (<>
-                        {MEETUPS.value.map((value, index) => (<div key={index}>
-                            <EventCard 
-                            type={EEventTypes.meetup} 
-                            title={value.meetupName}
-                            firstLine={value.workerName} 
-                            secondLine={`${value.date}-${value.time}`}
-                            buttonText="подробнее"
-                            category={EEventCategories.psychology}
-                            click={() => navigator(`/application/lector/${value.id}`)}
-                            />
-                        </div>))}
+                        {meetupsQuery.isSuccess
+                            ? (<>
+                                {meetupsQuery.data.map((value) => <EventCard 
+                                    type={EEventTypes.meetup} 
+                                    title={value.meet_name}
+                                    firstLine={value.speaker_name} 
+                                    secondLine={value.date}
+                                    buttonText="подробнее"
+                                    category={EEventCategories.psychology}
+                                    click={() => navigator(`/application/lector/${value.meet_id}`)}
+                                    />)
+                                }
+                            </>)
+                            : (<></>)
+                        }
                     </>)
                     : (<>
-                        {LECTORS.value.map((value, index) => (<div key={index}>
-                            <EventCard 
-                            type={EEventTypes.meetup} 
-                            title={value.fio}
-                            firstLine={`Специальность: ${value.subjectName}`} 
-                            secondLine={String(value.rating)}
-                            buttonText="подробнее"
-                            category={value.subjectName}
-                            click={() => navigator(`/application/lector/${value.id}`)}
-                            />
-                        </div>))}
+                        {lectorsQuery.isSuccess
+                            ? (<>
+                                {lectorsQuery.data.map((value, index) =>(<div key={index}>
+                                    <EventCard 
+                                    type={EEventTypes.meetup} 
+                                    title={value.fio}
+                                    firstLine={`Специальность: ${value.subjectName}`} 
+                                    secondLine={String(value.rating)}
+                                    buttonText="подробнее"
+                                    category={value.subjectName}
+                                    click={() => navigator(`/application/lector/${value.id}`)}/>
+                                </div>))}
+                            </>)
+                            : (<></>)
+                        }
                     </>)
                 }
             </div>
