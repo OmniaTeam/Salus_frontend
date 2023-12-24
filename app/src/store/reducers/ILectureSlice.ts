@@ -8,7 +8,6 @@ const initialState : ILecture = {
     subject: EEventCategories.all,
     speaker_name: "nothing",
     date: "00-00-0000",
-    time: "00-00",
     platform: "nothing",
     link: "nothing"
 }
@@ -32,9 +31,6 @@ export const ILectureSlice = createSlice({
         setLectureDate : (state, action : PayloadAction<string>) => {
             state.date = action.payload
         },
-        setLectureTime : (state, action : PayloadAction<string>) => {
-            state.time = action.payload
-        },
         setLecturePlatform : (state, action : PayloadAction<string>) => {
             state.platform = action.payload
         },
@@ -50,7 +46,6 @@ export const {
     setLectorName,
     setLectureCategory,
     setLectureDate,
-    setLectureTime,
     setLecturePlatform,
     setLectureLink
 } = ILectureSlice.actions

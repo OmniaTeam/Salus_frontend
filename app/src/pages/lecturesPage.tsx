@@ -15,7 +15,6 @@ import {
     setLectureTopic, 
     setLectureCategory, 
     setLectorName, 
-    setLectureTime, 
     setLecturePlatform, 
     setLectureLink, 
     setLectureDate 
@@ -59,8 +58,7 @@ export default function LecturesPage() {
             meet_name: lectureName,
             subject: EEventCategories.psychology,
             speaker_name: selectedLector,
-            date: selectedDate.slice(0, 10),
-            time: selectedTime,
+            date: selectedDate.slice(0, 10) + selectedTime,
             platform: selectedPlatform,
             link: lectureConfLink
         })
@@ -77,8 +75,7 @@ export default function LecturesPage() {
                         meet_name: value.meet_name,
                         subject: EEventCategories.psychology,
                         speaker_name: value.speaker_name,
-                        date: value.date.slice(0, 10),
-                        time: value.date.slice(11, 19),
+                        date: value.date.slice(0, 19),
                         platform: value.platform,
                         link: value.link
                     }))
@@ -199,7 +196,7 @@ export default function LecturesPage() {
                     title={elem.meet_name}
                     firstLine={elem.subject} 
                     secondLine={elem.speaker_name}
-                    thirdLine={elem.date + "-" + elem.time}
+                    thirdLine={elem.date}
                     buttonText={USER.role === EUserRole.none ? "войти в систему" : "подробнее"}
                     category={elem.subject}
                     click={USER.role === EUserRole.none ? () => navigator('/auth') : () => {
@@ -207,8 +204,7 @@ export default function LecturesPage() {
                         dispatch(setLectureTopic(elem.meet_name))
                         dispatch(setLectureCategory(EEventCategories.psychology))
                         dispatch(setLectorName(elem.speaker_name))
-                        dispatch(setLectureDate(elem.date.slice(0, 10)))
-                        dispatch(setLectureTime(elem.date.slice(11, 19)))
+                        dispatch(setLectureDate(elem.date.slice(0, 19)))
                         dispatch(setLecturePlatform(elem.platform))
                         dispatch(setLectureLink(elem.link))
                         setIsEventModalOpen(true)
@@ -218,8 +214,7 @@ export default function LecturesPage() {
                         dispatch(setLectureTopic(elem.meet_name))
                         dispatch(setLectureCategory(EEventCategories.psychology))
                         dispatch(setLectorName(elem.speaker_name))
-                        dispatch(setLectureDate(elem.date.slice(0, 10)))
-                        dispatch(setLectureTime(elem.date.slice(11, 19)))
+                        dispatch(setLectureDate(elem.date.slice(0, 19)))
                         dispatch(setLecturePlatform(elem.platform))
                         dispatch(setLectureLink(elem.link))
                         setIsEditEventModalOpen(true)
@@ -396,7 +391,7 @@ export default function LecturesPage() {
                         type="time" 
                         placeholder="Введите время"
                         className="modal--form__input"
-                        onChange={(e) => setLectureTime(e.target.value)}
+                        onChange={(e) => setSelectedTime(e.target.value)}
                         />
                         <DropdownMenu
                         defaultSelected={selectedPlatform}

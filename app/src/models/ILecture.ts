@@ -6,7 +6,6 @@ export interface ILecture {
     subject : EEventCategories,
     speaker_name : string,
     date : string,
-    time : string,
     platform : string,
     link : string
 }
