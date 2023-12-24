@@ -20,7 +20,7 @@ export default function ProfilePage() {
 
     const USER = useAppSelector((state) => state.user)
 
-    const metricsQuery = useGetMetricsQuery(USER.id)
+    const metricsQuery = useGetMetricsQuery(1)
 
     const getIcon = (userRole : EUserRole) => {
         switch (userRole) {
