@@ -90,7 +90,7 @@ export default function LectorPage() {
                     </button>
                     : <button
                     className="lector--record"
-                    style={{ backgroundColor: "#FFD4A8" }}
+                    style={{ backgroundColor: "#FFD4A8", cursor: "pointer" }}
                     onClick={() => setIsEventModalOpen(true)}
                     >
                     записаться
