@@ -82,9 +82,9 @@ export const DataService = createApi({
 			id : number,
 			specialization : string,
 			userId : number
-		}, any>({
-			query : () => ({
-				url : "worker",
+		}, number>({
+			query : ( userId ) => ({
+				url : `worker/${userId}`,
 				headers : {
 					"Content-Type": "application/json",
 				},

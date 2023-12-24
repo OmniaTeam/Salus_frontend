@@ -17,7 +17,7 @@ export default function LectorPage() {
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
     const [selectedTime, setSelectedTime] = useState<string>('00:00')
 
-    const workerQuery = useGetWorkerQuery('')
+    const workerQuery = useGetWorkerQuery(USER.id)
     const [signUp, {}] = usePostSignUpMutation()
 
     const signUpHandler = () => {
