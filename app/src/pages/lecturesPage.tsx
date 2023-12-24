@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
-import { useGetLecturesByDateQuery } from "../services/dataService"
+import { useGetLecturesByDateQuery, useUpdateLectureMutation } from "../services/dataService"
 import { setLecturesData } from "../store/reducers/ILecturesSlice"
 import { clearLectorsData } from "../store/reducers/ILectorsSlice"
 import { 
@@ -46,6 +46,20 @@ export default function LecturesPage() {
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
     const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
+    const [updateLecture, {}] = useUpdateLectureMutation()
+
+    const updateHandler = () => {
+        updateLecture({
+            meet_id: LECTURE.meet_id,
+            meet_name: LECTURE.meet_name,
+            subject: EEventCategories.psychology,
+            speaker_name: LECTURE.speaker_name,
+            date: LECTURE.date.slice(0, 10),
+            time: LECTURE.date.slice(11, 19),
+            platform: LECTURE.platform,
+            link: LECTURE.link
+        })
+    }
 
     useEffect(() => {
         if (lecturesQuery.isSuccess) {
@@ -286,7 +300,17 @@ export default function LecturesPage() {
                         dispatch(setLectureLink(elem.link))
                         setIsEventModalOpen(true)
                     }}
-                    edit={() => setIsEditEventModalOpen(true)}
+                    edit={() => {
+                        dispatch(setLectureId(elem.meet_id))
+                        dispatch(setLectureTopic(elem.meet_name))
+                        dispatch(setLectureCategory(EEventCategories.psychology))
+                        dispatch(setLectorName(elem.speaker_name))
+                        dispatch(setLectureDate(elem.date.slice(0, 10)))
+                        dispatch(setLectureTime(elem.date.slice(11, 19)))
+                        dispatch(setLecturePlatform(elem.platform))
+                        dispatch(setLectureLink(elem.link))
+                        setIsEditEventModalOpen(true)
+                    }}
                     delete={() => setIsDeleteModalOpen(true)}
                     />
                 </motion.div>)
@@ -460,6 +484,7 @@ export default function LecturesPage() {
                     <button 
                     type="button"
                     className="modal--button"
+                    onClick={updateHandler}
                     >Сохранить изменения</button>
                 </div>
             </Modal>
