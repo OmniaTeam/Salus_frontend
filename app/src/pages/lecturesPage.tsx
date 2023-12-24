@@ -18,7 +18,6 @@ export default function LecturesPage() {
     const dispatch = useAppDispatch()
 
     const USER = useAppSelector((state) => state.user)
-    const LECTURES = useAppSelector((state) => state.lectures)
     const SETTINGS = useAppSelector((state) => state.settings)
 
     const [isEventModalOpen, setIsEventModalOpen] = useState<boolean>(false);
@@ -32,7 +31,7 @@ export default function LecturesPage() {
     const [selectedTime, setSelectedTime] = useState<string>('Выберите время')
     const [selectedPlatform, setSelectedPlatform] = useState<string>('Выберите платформу')
 
-    const { isError } = useGetLecturesByDateQuery(selectedDate)
+    const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
 
     const handleCategoriesSelect = (category: string) => {
 		const selectedCategory = categories.find(
@@ -285,9 +284,9 @@ export default function LecturesPage() {
                 </div>
             </div>
             <div className="lectures--content">
-                { isError === false
-                    ? <>{LECTURES.value.map((value, index) => (<>
-                        <motion.div 
+                {lecturesQuery.isSuccess
+                    ? (<>
+                        {lecturesQuery.data.map((value, index) => <motion.div 
                         initial={{opacity: 0, y: 10}}
                         animate={{opacity: 1, y: 0}}
                         transition={{duration: 1}}
@@ -304,8 +303,8 @@ export default function LecturesPage() {
                             edit={() => setIsEditEventModalOpen(true)}
                             delete={() => setIsDeleteModalOpen(true)}
                             />
-                        </motion.div>
-                    </>))}</>
+                        </motion.div>)}
+                    </>)
                     : <></>
                 }
             </div>
