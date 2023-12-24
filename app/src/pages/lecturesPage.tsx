@@ -85,12 +85,12 @@ export default function LecturesPage() {
                     dispatch(setLecturesData(
                     {
                         meet_id: value.meet_id,
-                        meet_name: value.meet_name,
+                        meet_name: String(value.meet_name),
                         subject: getCategoryId(EEventCategories.psychology),
-                        speaker_name: value.speaker_name,
-                        date: value.date.slice(0, 19),
-                        platform: value.platform,
-                        link: value.link
+                        speaker_name: String(value.speaker_name),
+                        date: String(value.date.slice(0, 19)),
+                        platform: String(value.platform),
+                        link: String(value.link)
                     }))
                     console.log(LECTURES)
                 })
