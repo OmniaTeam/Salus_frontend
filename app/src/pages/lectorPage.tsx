@@ -84,12 +84,14 @@ export default function LectorPage() {
                     ? <button
                     className="lector--record"
                     style={{ backgroundColor: "#FFD4A8" }}
+                    onClick={() => window.location.href = "https://salus.the-omnia.ru/auth"}
                     >
                     войдите, чтобы записаться
                     </button>
                     : <button
                     className="lector--record"
                     style={{ backgroundColor: "#FFD4A8" }}
+                    onClick={() => setIsEventModalOpen(true)}
                     >
                     записаться
                     </button>
