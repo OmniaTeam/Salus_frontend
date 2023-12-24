@@ -1,49 +1,12 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAppSelector } from "../hooks/redux";
 import { useGetLectorQuery } from "../services/dataService";
 
-async function getSpeakerFio(speakerId : number) {
-    try {
-        const response = await fetch(
-            `https://salus.the-omnia.ru/api/v3/user/${speakerId}`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                method: "GET",
-            }
-        );
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 export default function LectorPage() {
     const lectorId = useParams();
 
-    const LECTOR = useAppSelector((state) => state.lector);
     const lectoreQuery = useGetLectorQuery(Number(lectorId.id));
-
-    const [speakerFio, setSpeakerFio] = useState("");
-    const [speakerEmail, setSpeakerEmail] = useState("")
-
-    useEffect(() => {
-        const fetchSpeakerFio = async () => {
-            const fio = await getSpeakerFio(Number(lectorId.id)).then((res) => res.fio);
-            const email = await getSpeakerFio(Number(lectorId.id)).then((res) => res.username);
-            setSpeakerFio(fio);
-            setSpeakerRole(role);
-            setSpeakerEmail(email)
-        };
-
-        fetchSpeakerFio();
-    }, [lectorId.id]);
 
     return (
         <>
@@ -56,7 +19,7 @@ export default function LectorPage() {
                 transition={{ duration: 1 }}
                 className="lector--title"
                 >
-                {speakerFio}
+                {lectoreQuery.data.fio}
                 </motion.h1>
                 <div className="metrics">
                 <motion.div
@@ -66,7 +29,7 @@ export default function LectorPage() {
                     className="metrics--spec"
                 >
                     <p className="metrics--spec__name">Специальность</p>
-                    <p className="metrics--spec__value">{LECTOR.subjectName}</p>
+                    <p className="metrics--spec__value">{lectoreQuery.data.subjectName}</p>
                 </motion.div>
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -75,7 +38,7 @@ export default function LectorPage() {
                     className="metrics--spec"
                 >
                     <p className="metrics--spec__name">Почта</p>
-                    <p className="metrics--spec__value">{speakerEmail}</p>
+                    <p className="metrics--spec__value">{"speakerEmail"}</p>
                 </motion.div>
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
