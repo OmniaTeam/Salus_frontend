@@ -6,6 +6,7 @@ import { useState } from "react"
 import { EUserRole } from "../models/EUserRole"
 import { useAppSelector } from "../hooks/redux"
 import { useGetLectorsQuery, useGetMeetupsByDateQuery } from "../services/dataService"
+import { getSpec } from "../devtools/categoryUtils"
 
 import EventCard from "../components/eventCard"
 import Modal from "../components/modal"
@@ -95,7 +96,7 @@ export default function LectorsPage() {
                                     <EventCard 
                                     type={EEventTypes.meetup} 
                                     title={value.fio}
-                                    firstLine={`Специальность: ${value.subjectName}`} 
+                                    firstLine={`Специальность: ${getSpec(value.subjectName)}`} 
                                     secondLine={String(value.rating)}
                                     buttonText="подробнее"
                                     category={value.subjectName}

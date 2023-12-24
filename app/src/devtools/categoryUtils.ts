@@ -35,3 +35,16 @@ export const getCategoryById = (id: number) => {
         default: EEventCategories.all
     }
 }
+
+export const getSpec = (category: EEventCategories) => {
+    switch (category) {
+        case EEventCategories.psychology: return "Психолог"
+        case EEventCategories.finance: return "Финансист"
+        case EEventCategories.health: return "Фитнес коуч"
+        case EEventCategories.feed: return "Диетолог"
+        case EEventCategories.meditation: return "Спец по медитациям"
+        case EEventCategories.all: return "..."
+        default: return 0
+    }
+}
+
