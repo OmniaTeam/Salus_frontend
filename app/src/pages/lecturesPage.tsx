@@ -71,7 +71,7 @@ export default function LecturesPage() {
             meet_name: lectureName,
             subject: getCategoryId(EEventCategories.psychology),
             speaker_name: selectedLector,
-            date: selectedDate + "T" + selectedTime,
+            date: selectedDate.slice(0, 10) + "T" + selectedTime,
             platform: selectedPlatform,
             link: lectureConfLink
         })
