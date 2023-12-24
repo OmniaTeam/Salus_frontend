@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux"
 import { EUserRole } from "../models/EUserRole"
 import { getCategoryName } from "../devtools/categoryUtils"
 import { setCategory } from "../store/reducers/ISettingsSlice"
-import { useGetLecturesByDateQuery, useUpdateLectureMutation } from "../services/dataService"
+import { useGetLecturesByDateQuery, useGetSubjectsQuery, useUpdateLectureMutation } from "../services/dataService"
 import { setLecturesData } from "../store/reducers/ILecturesSlice"
 import { clearLectorsData } from "../store/reducers/ILectorsSlice"
 import { 
@@ -47,6 +47,7 @@ export default function LecturesPage() {
 
     const lecturesQuery = useGetLecturesByDateQuery(selectedDate)
     const [updateLecture, {}] = useUpdateLectureMutation()
+    const subjectsQuery = useGetSubjectsQuery('')
 
     const updateHandler = () => {
         updateLecture({
@@ -155,39 +156,11 @@ export default function LecturesPage() {
 		}
 	};
 
-    const categories = [
-        {
-            value: getCategoryName(EEventCategories.all),
-		    label: getCategoryName(EEventCategories.all),
-		    id: 0
-        },
-        {
-            value: getCategoryName(EEventCategories.psychology),
-		    label: getCategoryName(EEventCategories.psychology),
-		    id: 1
-        },
-        {
-            value: getCategoryName(EEventCategories.finance),
-		    label: getCategoryName(EEventCategories.finance),
-		    id: 2
-        }, 
-        {
-            value: getCategoryName(EEventCategories.health),
-		    label: getCategoryName(EEventCategories.health),
-		    id: 3
-        },
-        {
-            value: getCategoryName(EEventCategories.feed),
-		    label: getCategoryName(EEventCategories.feed),
-		    id: 4
-        },
-        {
-            value: getCategoryName(EEventCategories.meditation),
-		    label: getCategoryName(EEventCategories.meditation),
-		    id: 5
-        },
-
-    ]
+    const categories = subjectsQuery.data?.map((value) => ({
+        value : value.name,
+        label : value.name,
+        id : value.id
+    })) || []
 
     const lectors = [
         {

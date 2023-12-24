@@ -57,6 +57,15 @@ export const DataService = createApi({
 				method: "GET"
 			})
 		}),
+		getSubjects : build.query<ISubject[], any>({
+			query : () => ({
+				url : "/subject/all",
+				headers : {
+					"Content-Type": "application/json",
+				},
+				method: "GET"
+			})
+		}),
 		getSubjectById : build.query<ISubject, number>({
 			query : ( subjectId ) => ({
 				url : `/subject/${subjectId}`,
@@ -73,6 +82,7 @@ export const {
 	useGetLecturesByDateQuery,
 	useGetMeetupsByDateQuery,
 	useGetWorkerMeetupsQuery,
+	useGetSubjectsQuery,
 	useGetSubjectByIdQuery,
 	useGetLectureQuery,
 	useUpdateLectureMutation
