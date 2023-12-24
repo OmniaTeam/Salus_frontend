@@ -128,7 +128,7 @@ export default function LectorPage() {
                         />
                         <button
                         className="lector--record"
-                        style={{ backgroundColor: "#FFD4A8" }}
+                        style={{ backgroundColor: "#FFD4A8", cursor: "pointer" }}
                         onClick={signUpHandler}
                         >
                         записаться
