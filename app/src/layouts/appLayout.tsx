@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom"
 import { useAppDispatch } from "../hooks/redux"
 import { useGetUserQuery } from "../services/authService"
 import { useEffect } from "react"
-import { setLogin, setName, setRole } from "../store/reducers/IUserSlice"
+import { setId, setLogin, setName, setRole } from "../store/reducers/IUserSlice"
 import { EUserRole } from "../models/EUserRole"
 
 import Navbar from "../components/navbar"
@@ -14,6 +14,7 @@ export default function AppLayout() {
 
     useEffect(() => {
         if (getUser.isSuccess) {
+            dispatch(setId(getUser.data.id))
             dispatch(setName(getUser.data.fio))
             dispatch(setLogin(getUser.data.login))
             switch (getUser.data.role) {
