@@ -69,9 +69,9 @@ export const DataService = createApi({
 			date: string,
 			platform: string,
 			link: string
-		}[], any>({
-			query : () => ({
-				url : "/",
+		}[], {speakerId : number, date : string}>({
+			query : ( arg ) => ({
+				url : `/speaker/${arg.speakerId}/meets/${arg.date}`,
 				headers : {
 					"Content-Type": "application/json",
 				},

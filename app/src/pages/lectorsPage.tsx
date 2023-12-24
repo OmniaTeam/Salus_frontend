@@ -20,7 +20,10 @@ export default function LectorsPage() {
     const [isSettingsModalOpen, setIsSettignsModalOpen] = useState<boolean>(false)
 
     const lectorsQuery = useGetLectorsQuery('')
-    const meetupsQuery = useGetMeetupsByDateQuery(selectedDate.slice(0, 10))
+    const meetupsQuery = useGetMeetupsByDateQuery({
+        speakerId : USER.id,
+        date: selectedDate.slice(0, 10)
+    })
 
     return (<>
         <div className="lectors">
