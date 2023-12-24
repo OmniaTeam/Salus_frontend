@@ -13,7 +13,7 @@ export default function LectorPage() {
     const lectoreQuery = useGetLectorQuery(Number(lectorId.id));
 
     const [isEventModalOpen, setIsEventModalOpen] = useState<boolean>(false);
-    const [recordName, setRecordName] = useState<string>('Введите название')
+    const [recordName, setRecordName] = useState<string>('')
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString())
     const [selectedTime, setSelectedTime] = useState<string>('00:00')
 
@@ -112,7 +112,6 @@ export default function LectorPage() {
                         type="text"
                         placeholder="Введите название" 
                         className="modal--form__input"
-                        value={recordName}
                         onChange={(event) => setRecordName(event.target.value)}
                         />
                         <input 
